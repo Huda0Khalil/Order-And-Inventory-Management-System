@@ -1,0 +1,211 @@
+﻿@OAIM.API_HostAddress = https://localhost:7211
+@id=7
+POST {{OAIM.API_HostAddress}}/api/supplier
+tenant: Tenant3
+Content-Type: application/json
+{
+  "Name": "Test Supplier",
+  "ContactEmail": "test@gmal.com",
+  "PhoneNumbers":"0796541238",
+  "Address": "Amman",
+  "TenantId": "Tenant3"
+}
+
+###
+@pageNumber=1
+@pageSize=10
+GET {{OAIM.API_HostAddress}}/api/supplier?pageNumber={{pageNumber}}&pageSize={{pageSize}}
+tenant:Tenant3
+
+###
+
+GET {{OAIM.API_HostAddress}}/api/supplier/{{id}}
+tenant: Tenant3
+
+###
+PUT {{OAIM.API_HostAddress}}/api/supplier/{{id}}
+Content-Type: application/json
+tenant: Tenant3
+{
+  
+  "Name": "Supplier",
+  "ContactEmail": "Supplier2@gmal.com",
+  "PhoneNumber":"0796541238",
+  "Address": "Amman",
+  "TenantId": "Tenant3"
+}
+
+###
+DELETE {{OAIM.API_HostAddress}}/api/supplier/{{id}}
+tenant: Tenant3
+###
+
+//Category
+GET {{OAIM.API_HostAddress}}/api/category?pageNumber={{pageNumber}}&pageSize={{pageSize}}
+tenant:Tenant3
+
+###
+
+POST {{OAIM.API_HostAddress}}/api/category
+Content-Type: application/json
+tenant: Tenant3
+{
+  "Name":"category2",
+  "TenantId":"Tenant3"
+}
+
+###
+GET {{OAIM.API_HostAddress}}/api/category/{{id}}
+tenant:Tenant3
+###
+PUT {{OAIM.API_HostAddress}}/api/category/{{id}}
+Content-Type: application/json
+tenant:Tenant3
+{
+  "Name":"Test",
+  "TenantId":"Tenant3"
+}
+
+###
+
+DELETE {{OAIM.API_HostAddress}}/api/category/{{id}}
+tenant:Tenant3
+###
+
+//Product
+POST {{OAIM.API_HostAddress}}/api/product
+Content-Type: application/json
+tenant:Tenant3
+{
+  "Name":"Product3",
+  "Price":"9.0",
+  "Barcode":"2000444",
+  "CategoryId":"1",
+  "SupplierId":"5",
+  "TenantId":"Tenant3"
+}
+
+###
+
+GET {{OAIM.API_HostAddress}}/api/product
+tenant:Tenant3
+###
+GET {{OAIM.API_HostAddress}}/api/product/{{id}}
+tenant:Tenant3
+###
+DELETE {{OAIM.API_HostAddress}}/api/product/{{id}}
+tenant:Tenant3
+###
+
+PUT {{OAIM.API_HostAddress}}/api/product/{{id}}
+Content-Type: application/json
+tenant:Tenant3
+{
+  "Name":"Product3",
+  "Price":"8.0",
+  "Barcode":"2000442",
+  "CategoryId":"1",
+  "SupplierId":"5",
+  "StockQuantity":"10",
+  "TenantId":"Tenant3"
+}
+
+
+
+###
+
+
+
+GET {{OAIM.API_HostAddress}}/api/product?pageNumber={{pageNumber}}&pageSize={{pageSize}}
+tenant:Tenant3
+###
+
+
+//Customer
+POST {{OAIM.API_HostAddress}}/api/customer
+Content-Type: application/json
+tenant:Tenant3
+{
+  "FirstName":"yyyy2",
+  "LastName":"yyyy2",
+  "Email":"yyyy2@gmail.com",
+  "PhoneNumber":"0785432169",
+  "Address":"Amman",
+  "CustomerType": 1
+}
+
+###
+
+GET {{OAIM.API_HostAddress}}/api/customer/{{id}}
+tenant:Tenant3
+###
+
+PUT {{OAIM.API_HostAddress}}/api/customer/{{id}}
+tenant:Tenant3
+Content-Type: application/json
+
+{
+  "FirstName":"xxxx",
+  "LastName":"xxxx",
+  "Email":"xxxx@gmail.com",
+  "PhoneNumber":"0785432169",
+  "Address":"Amman",
+  "CustomerType": 1
+  
+}
+
+###
+
+GET {{OAIM.API_HostAddress}}/api/customer?pageNumber={{pageNumber}}&pageSize={{pageSize}}
+tenant:Tenant3
+###
+
+DELETE {{OAIM.API_HostAddress}}/api/customer/{{id}}
+tenant:Tenant3
+###
+//Order
+POST {{OAIM.API_HostAddress}}/api/order
+tenant:Tenant3
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "productId": 2,
+      "quantity": 1
+    },
+    {
+      "productId": 3,
+      "quantity": 2
+    }
+  ]
+}
+
+###
+
+GET {{OAIM.API_HostAddress}}/api/order?pageNumber={{pageNumber}}&pageSize={{pageSize}}
+tenant:Tenant3
+###
+
+GET {{OAIM.API_HostAddress}}/api/order/{{id}}
+tenant:Tenant3
+###
+
+PUT {{OAIM.API_HostAddress}}/api/order/{{id}}
+tenant:Tenant3
+Content-Type: application/json
+
+{
+   "items": [
+    {
+      "productId": 3,
+      "quantity": 2
+    },
+     {
+      "productId": 2,
+      "quantity": 3
+    }
+  ]
+}
+
+###
