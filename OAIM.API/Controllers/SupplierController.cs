@@ -4,6 +4,7 @@ using OAIM.Application.DTO;
 
 namespace OAIM.API.Controllers
 {
+    [Authorize] 
     [Route("api/[controller]")]
     [ApiController]
     public class SupplierController : ControllerBase

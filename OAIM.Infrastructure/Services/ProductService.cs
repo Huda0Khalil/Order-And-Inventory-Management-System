@@ -14,12 +14,15 @@ namespace OAIM.Application.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IRepository<Product> _productRepository;
-        public ProductService(IRepository<Product> productRepository) 
+        private readonly IRepository<Product, int> _productRepository;
+        private IUnitOfWork _unitOfWork;
+
+        public ProductService(IRepository<Product, int> productRepository, IUnitOfWork unitOfWork) 
         {
             _productRepository = productRepository;
+            _unitOfWork = unitOfWork;
         }
-        public Task<Product> CreateProductAsync(ProductDto createProductDto)
+        public async Task<Product> CreateProductAsync(ProductDto createProductDto)
         {
             var product = new Product();
             product.Name = createProductDto.Name;
@@ -29,13 +32,15 @@ namespace OAIM.Application.Services
             product.CategoryId = createProductDto.CategoryId;
             product.SupplierId = createProductDto.SupplierId;
             product.TenantId = createProductDto.TenantId;
-            var result = _productRepository.AddAsync(product);
+            var result = await _productRepository.AddAsync(product);
+            await _unitOfWork.SaveChangesAsync();
             return result;
         }
 
         public async Task<bool> DeleteProductAsync(int id)
         {
             bool result = await _productRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
             return result;
         }
 
@@ -64,13 +69,13 @@ namespace OAIM.Application.Services
 
         }
 
-        public Task<Product> GetProductByIdAsync(int id)
+        public async Task<Product> GetProductByIdAsync(int id)
         {
-            var result = _productRepository.GetByIdAsync(id);
+            var result = await _productRepository.GetByIdAsync(id);
             return result;
         }
 
-        public Task<Product> UpdateProduct(int id, ProductDto updateProductDto)
+        public async Task<Product> UpdateProduct(int id, ProductDto updateProductDto)
         {
             Product product = new Product()
             {
@@ -83,8 +88,9 @@ namespace OAIM.Application.Services
                 SupplierId = updateProductDto.SupplierId,
                 TenantId = updateProductDto.TenantId
             };
-            var result = _productRepository.Update(product);
-            return result;
+            _productRepository.Update(product);
+            await _unitOfWork.SaveChangesAsync();
+            return product;
 
         }
     }

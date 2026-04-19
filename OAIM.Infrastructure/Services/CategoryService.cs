@@ -1,38 +1,38 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OAIM.Application.Data;
+﻿using OAIM.Application.Data;
 using OAIM.Application.DTO;
-using OAIM.Application.IServices;
-using OAIM.Domain.Entities;
 using OAIM.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OAIM.Application.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly IRepository<Category> _categoryRepository;
-        public CategoryService(IRepository<Category> categoryRepository)
+        private readonly IRepository<Category,int> _categoryRepository;
+        private IUnitOfWork _unitOfWork;
+
+        public CategoryService(IRepository<Category, int> categoryRepository, IUnitOfWork unitOfWork)
         {
             _categoryRepository = categoryRepository;
+            _unitOfWork = unitOfWork;
         }
-        public Task<Category> CreateCategoryAsync(CategoryDto categoryDto)
+        public async Task<Category> CreateCategoryAsync(CategoryDto categoryDto)
         {
             Category category = new Category
             {
                 Name = categoryDto.Name,
                 TenantId = categoryDto.TenantId
             };
-            var result = _categoryRepository.AddAsync(category);
+            var result = await _categoryRepository.AddAsync(category);
+            await _unitOfWork.SaveChangesAsync();
+
             return result;
         }
+
+       
 
         public async Task<bool> DeleteCategoryAsync(int id)
         {
             bool result = await _categoryRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
             return result;
         }
 
@@ -65,7 +65,7 @@ namespace OAIM.Application.Services
             return result;
         }
 
-        public Task<Category> UpdateCategory(int id, CategoryDto categoryDto)
+        public async Task<Category> UpdateCategory(int id, CategoryDto categoryDto)
         {
             Category category = new Category
             {
@@ -73,8 +73,14 @@ namespace OAIM.Application.Services
                 Name = categoryDto.Name,
                 TenantId = categoryDto.TenantId
             };
-            var categoryUpdated =  _categoryRepository.Update(category);
-            return categoryUpdated;
+            await _categoryRepository.Update(category);
+            await _unitOfWork.SaveChangesAsync();
+            return category;
+        }        
+
+        Task<PagedResult<Category>> ICategoryService.GetAllCategoriesAsync(int pageNumber, int pageSize)
+        {
+            throw new NotImplementedException();
         }
     }
 }

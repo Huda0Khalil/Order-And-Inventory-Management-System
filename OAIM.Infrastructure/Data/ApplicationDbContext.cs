@@ -1,10 +1,12 @@
 ﻿
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using OAIM.Domain.Interfaces;
+using OAIM.Infrastructure.Identity;
 
 namespace OAIM.Infrastructure.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         private readonly ITenantServices? _tenantService;
         private readonly IConfiguration _configuration;
@@ -57,6 +59,8 @@ namespace OAIM.Infrastructure.Data
         DbSet<OrderItem> OrderItems { get; set; }
         DbSet<Product> Products { get; set; }
         DbSet<Category> Categories { get; set; }
+        DbSet<User> UsersDomain { get; set; }
+
         public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             var x = ChangeTracker.Entries<IMustHaveTenant>().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified).ToList();
@@ -78,11 +82,21 @@ namespace OAIM.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>().HasQueryFilter(u => u.TenantId == TenantId);
+            modelBuilder.Entity<User>().HasMany(u => u.Orders).WithOne(o => o.CreatedBy)
+                .HasForeignKey(o => o.CreatedById)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.UpdatedBy)
+                .WithMany()
+                .HasForeignKey(o => o.UpdatedById)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Customer>().HasQueryFilter(c => c.TenantId == TenantId);
             modelBuilder.Entity<Supplier>().HasQueryFilter(s => s.TenantId == TenantId);
             modelBuilder.Entity<Order>().HasMany(o => o.Items).WithOne(o => o.Order)
                 .HasForeignKey(o => o.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Order>().HasQueryFilter(o => o.TenantId == TenantId);
             modelBuilder.Entity<OrderItem>().HasQueryFilter(oi => oi.TenantId == TenantId);
             modelBuilder.Entity<Product>().HasQueryFilter(p => p.TenantId == TenantId);

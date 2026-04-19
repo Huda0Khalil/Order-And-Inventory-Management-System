@@ -3,10 +3,11 @@ namespace OAIM.Application.IServices
 {
     public interface IOrderService
     {
-        Task<Order> CreateOrderAsync(CreateOrderDto orderDto);
-        Order GetOrderById(int orderId);
+        Task<OrderResponseDto> CreateOrderAsync(CreateOrderDto orderDto);
+        Task<Order> GetOrderByIdAsync(int orderId);
         Task<PagedResult<Order>> GetAllOrders(int pageNumber, int pageSize);
-        Task<Order> UpdateOrder(int id, CreateOrderDto orderDto);
-        void DeleteOrder(int orderId);
+        Task<OrderResponseDto> UpdateOrder(int id, CreateOrderDto orderDto);
+        Task DeleteOrder(int orderId, string user);
+        Task<List<Order>> GetOrdersByUserIdAsync(Guid userId, int pageNumber, int pageSize);
     }
 }

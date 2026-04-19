@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OAIM.Domain.Entities
 {
-    public class Order: IEntity, IMustHaveTenant
+    public class Order: IEntity<int>, IMustHaveTenant
     {
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
@@ -19,5 +19,11 @@ namespace OAIM.Domain.Entities
 
         [Required]
         public string TenantId { get; set; }
+        public User CreatedBy { get; set; }
+        public Guid CreatedById { get; set; }
+        
+        public User? UpdatedBy { get; set; }
+        public Guid? UpdatedById { get; set; }
+        public DateTime? UpdateDate { get; set; }
     }
 }

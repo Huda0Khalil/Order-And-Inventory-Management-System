@@ -1,12 +1,19 @@
 ﻿
+using OAIM.Application.Data;
+using OAIM.Application.DTO;
+using OAIM.Domain.Interfaces;
+
 namespace OAIM.Application.Services
 {
     public class CustomerService : ICustomerService
     {
-        private readonly IRepository<Customer> _customerRepository;
-        public CustomerService(IRepository<Customer> customerRepository)
+        private readonly IRepository<Customer, int> _customerRepository;
+        private IUnitOfWork _unitOfWork;
+
+        public CustomerService(IRepository<Customer, int> customerRepository, IUnitOfWork unitOfWork)
         {
             _customerRepository = customerRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Customer> CreateCustomerAsync(CustomerDto customerDto)
@@ -21,12 +28,15 @@ namespace OAIM.Application.Services
                 CustomerType = customerDto.CustomerType
             };
             Customer createdCustomer = await _customerRepository.AddAsync(customer);
+            await _unitOfWork.SaveChangesAsync();
             return customer;
         }
+
 
         public async Task<bool> DeleteCustomerAsync(int id)
         {
             bool result = await _customerRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
             return result;
         }
 
@@ -57,7 +67,7 @@ namespace OAIM.Application.Services
             return customer;
         }
 
-        public Task<Customer> UpdateCustomer(int id, CustomerDto customerDto)
+        public async Task<Customer> UpdateCustomer(int id, CustomerDto customerDto)
         {
             Customer customer = new Customer
             {
@@ -69,8 +79,15 @@ namespace OAIM.Application.Services
                 Address = customerDto.Address,
                 CustomerType = customerDto.CustomerType
             };
-            var updatedCustomer = _customerRepository.Update(customer);
-            return updatedCustomer;
+            _customerRepository.Update(customer);
+            await _unitOfWork.SaveChangesAsync();
+            return customer;
+        }
+
+       
+        Task<PagedResult<Customer>> ICustomerService.GetAllCustomersAsync(int pageNumber, int pageSize)
+        {
+            throw new NotImplementedException();
         }
     }
 }

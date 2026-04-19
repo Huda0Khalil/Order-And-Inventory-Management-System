@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace OAIM.Domain.Interfaces
 {
-    public interface IEntity
+    public interface IEntity<TKey>
     {
-        public int Id { get; set; }
+        public TKey Id { get; set; }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OAIM.Domain.Entities
 {
-    public class OrderItem:IEntity, IMustHaveTenant
+    public class OrderItem:IEntity<int>, IMustHaveTenant
     {
         public int Id { get; set; }
         public Order Order { get; set; }

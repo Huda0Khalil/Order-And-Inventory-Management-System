@@ -1,23 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OAIM.Application.Data;
+﻿using OAIM.Application.Data;
 using OAIM.Application.DTO;
-using OAIM.Application.IServices;
-using OAIM.Domain.Entities;
 using OAIM.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OAIM.Application.Services
 {
     public class SupplierService : ISupplierService
     {
-        private readonly IRepository<Supplier> _supplierRepository;
-        public SupplierService(IRepository<Supplier> supplierRepository)
+        private readonly IRepository<Supplier, int> _supplierRepository;
+        private IUnitOfWork _unitOfWork;
+
+        public SupplierService(IRepository<Supplier, int> supplierRepository, IUnitOfWork unitOfWork)
         {
             _supplierRepository = supplierRepository;
+            _unitOfWork = unitOfWork;
         }
         public async Task<Supplier> CreateSupplierAsync(SupplierDto createSupplierDto)
         {
@@ -31,13 +26,15 @@ namespace OAIM.Application.Services
 
             };
             Supplier result =  await _supplierRepository.AddAsync(supplier);
+            await _unitOfWork.SaveChangesAsync();
             return result;
-
         }
 
+       
         public async Task<bool> DeleteSupplierAsync(int id)
         {
             bool result = await _supplierRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
             return result;
         }
 
@@ -68,7 +65,7 @@ namespace OAIM.Application.Services
             return supplier;
         }
 
-        public Task<Supplier> UpdateSupplier(int id, SupplierDto updateSupplierDto)
+        public async Task<Supplier> UpdateSupplier(int id, SupplierDto updateSupplierDto)
         {
             Supplier supplier = new Supplier
             {
@@ -79,8 +76,10 @@ namespace OAIM.Application.Services
                 Address = updateSupplierDto.Address,
                 TenantId = updateSupplierDto.TenantId
             };
-            var supplierUpdated = _supplierRepository.Update(supplier);
-            return supplierUpdated;
+            await _supplierRepository.Update(supplier);
+            await _unitOfWork.SaveChangesAsync();
+            return supplier;
         }
+
     }
 }

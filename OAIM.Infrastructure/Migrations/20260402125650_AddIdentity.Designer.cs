@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OAIM.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using OAIM.Infrastructure.Data;
 namespace OAIM.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260402125650_AddIdentity")]
+    partial class AddIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,9 +227,6 @@ namespace OAIM.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("CreatedById")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
@@ -240,19 +240,9 @@ namespace OAIM.Infrastructure.Migrations
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("UpdatedById")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
-
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("UpdatedById");
 
                     b.ToTable("Orders");
                 });
@@ -522,26 +512,11 @@ namespace OAIM.Infrastructure.Migrations
 
             modelBuilder.Entity("OAIM.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("OAIM.Domain.Entities.User", "CreatedBy")
-                        .WithMany("Orders")
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("OAIM.Domain.Entities.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId");
 
-                    b.HasOne("OAIM.Domain.Entities.User", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("CreatedBy");
-
                     b.Navigation("Customer");
-
-                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("OAIM.Domain.Entities.OrderItem", b =>
@@ -585,11 +560,6 @@ namespace OAIM.Infrastructure.Migrations
             modelBuilder.Entity("OAIM.Domain.Entities.Order", b =>
                 {
                     b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("OAIM.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

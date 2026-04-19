@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OAIM.Domain.Entities
 {
-    public class Category : IEntity, IMustHaveTenant
+    public class Category : IEntity<int>, IMustHaveTenant
     {
         public int Id { get; set; }
         public string Name { get; set; }

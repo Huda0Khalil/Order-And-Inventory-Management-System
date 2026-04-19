@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OAIM.Domain.Entities
 {
-    public class Product : IEntity, IMustHaveTenant
+    public class Product : IEntity<int>, IMustHaveTenant
     {
         public int Id { get; set; }
         public string Name { get; set; }
