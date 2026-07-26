@@ -38,6 +38,16 @@ namespace OAIM.API.Controllers
             }
             return Ok(result);
         }
+        [HttpGet("getList")]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            var result = await _categoryService.GetListCategory();
+            if (result == null)
+            {
+                return NotFound("No categories found.");
+            }
+            return Ok(result);
+        }
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetCategoryById(int id)
@@ -72,7 +82,10 @@ namespace OAIM.API.Controllers
             {
                 return NotFound($"Category with Id {id} was not found.");
             }
-            return Ok($"Category with id { id} deleted");
+            return Ok(new
+            {
+                Message = $"Category with id ${id} deleted"
+            });
         }
 
         }

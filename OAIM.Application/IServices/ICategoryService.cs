@@ -13,7 +13,8 @@ namespace OAIM.Application.IServices
     {
         Task<Category> GetCategoryById(int id);
         Task<PagedResult<Category>> GetAllCategoriesAsync(int pageNumber, int pageSize);
-        Task<Category> CreateCategoryAsync(CategoryDto categoryDto);
+        public Task<List<Category>> GetListCategory();
+                Task<Category> CreateCategoryAsync(CategoryDto categoryDto);
         Task<bool> DeleteCategoryAsync(int id);
         Task<Category> UpdateCategory(int id, CategoryDto categoryDto);
     }

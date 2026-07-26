@@ -1,0 +1,39 @@
+<header class="topbar">
+
+  <!-- Title or breadcrumb -->
+  <div class="topbar-left">
+    @if (breadcrumbs.length > 0) {
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        @for (crumb of breadcrumbs; track crumb.label; let last = $last) {
+          @if (!last) {
+            <a class="crumb-link" [routerLink]="crumb.route">{{ crumb.label }}</a>
+            <i class="ti ti-chevron-right crumb-sep"></i>
+          } @else {
+            <span class="crumb-current">{{ crumb.label }}</span>
+          }
+        }
+      </nav>
+    } @else {
+      <h1 class="">{{ title }}</h1>
+    }
+  </div>
+  <div>
+    @if(haveSelect) {
+      <select
+        class="form-select form-select-sm"
+        placeholder="Select Category"
+        (change)="selectedValue.emit(+$any($event.target).value)"
+      >
+        <option *ngFor="let option of selectionChange" [value]="option.id">
+          {{ option.name }} 
+        </option>
+      </select>
+    }
+  </div>
+
+  <!-- Buttons/actions injected from parent -->
+  <div class="topbar-actions">
+    <ng-content />
+  </div>
+
+</header>

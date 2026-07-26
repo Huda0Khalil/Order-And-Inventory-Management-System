@@ -25,7 +25,6 @@ namespace OAIM.Application.Services
                 Email = customerDto.Email,
                 PhoneNumber = customerDto.PhoneNumber,
                 Address = customerDto.Address,
-                CustomerType = customerDto.CustomerType
             };
             Customer createdCustomer = await _customerRepository.AddAsync(customer);
             await _unitOfWork.SaveChangesAsync();
@@ -44,7 +43,7 @@ namespace OAIM.Application.Services
         {
             pageSize = pageSize > 100 ? 100 : pageSize;
             var query = _customerRepository
-           .GetAll()
+           .GetAll(null)
            .AsNoTracking();
             var totalCount = await query.CountAsync();
             var items = await query
@@ -66,28 +65,33 @@ namespace OAIM.Application.Services
             Customer customer = await _customerRepository.GetByIdAsync(id);
             return customer;
         }
+        
+        public async Task<List<Customer>> GetListCustomer()
+        {
+            return await _customerRepository
+                .GetAll(null)
+                .AsNoTracking()
+                .OrderBy(c => c.FirstName)
+                .Select(c => new Customer
+                {
+                    Id = c.Id,
+                    FirstName = c.FirstName, LastName = c.LastName
+                })
+                .ToListAsync();
+        }
 
         public async Task<Customer> UpdateCustomer(int id, CustomerDto customerDto)
         {
-            Customer customer = new Customer
-            {
-                Id = id,
-                FirstName = customerDto.FirstName,
-                LastName = customerDto.LastName,
-                Email = customerDto.Email,
-                PhoneNumber = customerDto.PhoneNumber,
-                Address = customerDto.Address,
-                CustomerType = customerDto.CustomerType
-            };
-            _customerRepository.Update(customer);
+            Customer customer = await _customerRepository.GetByIdAsync(id);
+            customer.FirstName = customerDto.FirstName;
+            customer.LastName = customerDto.LastName;
+            customer.Email = customerDto.Email;
+            customer.Address = customerDto.Address;
+            customer.PhoneNumber = customerDto.PhoneNumber;
             await _unitOfWork.SaveChangesAsync();
             return customer;
         }
 
        
-        Task<PagedResult<Customer>> ICustomerService.GetAllCustomersAsync(int pageNumber, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-    }
+     }
 }

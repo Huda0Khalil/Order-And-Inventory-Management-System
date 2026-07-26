@@ -1,0 +1,126 @@
+<app-top-bar title="Suppliers">
+
+</app-top-bar>
+<div class="card m-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="card-title">
+            <i class="ti ti-box-multiple-1"></i> All Products
+            <span class="text-muted text-sm" style="font-weight: 400">
+          ({{ suppliers.length }} total)
+        </span>
+        </div>
+        <div class="card-actions">
+            <input
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="Search suppliers..."
+                [(ngModel)]="searchText"
+                (input)="applyFilters()"
+            />
+        </div>
+        <div class="card-actions">
+           <button class="btn btn-sm btn-primary" (click)="openAddModel()">
+                <i class="ti ti-plus"></i> Add Supplier
+            </button>
+        </div>
+    </div>
+    @if(suppliers.length === 0) {
+        <div class="card-body">
+            <p>No suppliers found.</p>
+        </div>
+    }@else {
+         <div class="table-responsive">
+        <table class="table">
+          <thead class="table-header">
+            <tr scope="row">
+              <th >ID</th>
+              <th>Name</th>
+              <th>Contact Email</th>
+              <th>Phone Number</th>
+              <th>Address</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody class="table-body">
+            @for (sup of filteredSupplier; track sup.id) {
+              <tr scope="row">
+                <td>{{ sup.id }}</td>
+                <td>{{ sup.name }}</td>
+                <td>{{ sup.contactEmail }}</td>
+                <td>{{ sup.phoneNumber }}</td>
+                <td> {{ sup.address }}</td>
+                <td class="text-center">
+  <div class="d-flex justify-content-center gap-2">
+
+    <button
+      type="button"
+      class="btn btn-light border rounded-circle d-flex align-items-center justify-content-center"
+      style="width:40px;height:40px"
+      title="Edit"
+      (click)="openEdit(sup)">
+
+      <i class="ti ti-edit text-primary"></i>
+
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-light border rounded-circle d-flex align-items-center justify-content-center"
+      style="width:40px;height:40px"
+      title="Delete"
+      (click)="confirmDelete(sup)">
+
+      <i class="ti ti-trash text-danger"></i>
+
+    </button>
+
+  </div>
+</td></tr>
+            }
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-between align-items-center p-3 border-top">
+
+    <div class="text-muted small">
+        Showing
+        {{ ((pageNumber - 1) * pageSize) + 1 }}
+        -
+        {{ Math.min(pageNumber * pageSize, totalCount) }}
+        of
+        {{ totalCount }}
+        suppliers
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+
+          <button
+              class="btn btn-outline-primary btn-sm rounded-pill px-3"
+              [disabled]="pageNumber === 1"
+              (click)="previousPage()">
+
+              <i class="ti ti-chevron-left"></i>
+              Previous
+          </button>
+
+          <span class="fw-semibold px-2">
+              Page {{ pageNumber }}
+          </span>
+
+          <button
+              class="btn btn-outline-primary btn-sm rounded-pill px-3"
+              [disabled]="pageNumber * pageSize >= totalCount"
+              (click)="nextPage()">
+
+              Next
+              <i class="ti ti-chevron-right"></i>
+          </button>
+
+      </div>
+
+    </div>
+  </div>
+    }
+</div>
+<app-add-edit-supplier *ngIf="showModal" (closed)="closeModel()" (saved)="loadSuppliers()" [mode]="modalMode" [supplier]="selectedSupplier">
+
+</app-add-edit-supplier>

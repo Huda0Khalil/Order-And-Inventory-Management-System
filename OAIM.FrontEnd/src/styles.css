@@ -1,0 +1,39 @@
+/* You can add global styles to this file, and also import other style files */
+:root{
+    --topbar-height: 60px;
+    --surface: #fff;
+    --border: #e0e0e0;
+    --text: #000;
+}
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.crumb-link {
+  color: var(--text-2);
+  text-decoration: none;
+  transition: color 0.13s;
+  &:hover { color: var(--accent); }
+}
+
+.crumb-sep {
+  color: var(--text-3);
+  font-size: 12px;
+}
+
+.crumb-current {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: "Inter", "Cairo", sans-serif; }

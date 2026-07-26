@@ -19,7 +19,7 @@ namespace OAIM.API.Controllers
         public async Task<IActionResult> CreateProduct(ProductDto productDto)
         {
             try
-            {
+            { 
                 var result = await _productService.CreateProductAsync(productDto);
                 return Ok(result);
             }
@@ -29,9 +29,9 @@ namespace OAIM.API.Controllers
             }
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllProducts(int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> GetAllProducts(int pageNumber = 1, int pageSize = 10, int? categoryId = 0)
         {
-            var result = await _productService.GetAllProductsAsync(pageNumber,pageSize);
+            var result = await _productService.GetAllProductsAsync(pageNumber,pageSize, categoryId);
             if (result == null)
             {
                 return NotFound("No products found.");
@@ -78,7 +78,10 @@ namespace OAIM.API.Controllers
                 {
                     return NotFound($"Product with Id {id} was not found.");
                 }
-                return Ok($"Product with id {id} deleted successfully.");
+                return Ok(new
+                {
+                    Message = $"Product with id {id} deleted successfully"
+                });
             }
 
             catch (Exception ex)

@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using OAIM.Infrastructure.Services;
+using OAIM.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTenancy(builder.Configuration);
@@ -45,14 +46,34 @@ builder.Services.AddAuthentication(option =>
         // Validate security stamp on every request
         option.Events = new JwtBearerEvents
         {
+            OnMessageReceived = context =>
+            {
+                var token = context.Request.Cookies["auth_token"];
+                Console.WriteLine($"Cookie Token: {token}");
+
+                if (!string.IsNullOrEmpty(token))
+                    context.Token = token;
+                return Task.CompletedTask;
+            },
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine(context.Exception.Message);
+                return Task.CompletedTask;
+            },
             OnTokenValidated = async context =>
             {
                 var userManager = context.HttpContext.RequestServices
                     .GetRequiredService<UserManager<ApplicationUser>>();
 
-                var userId = context.Principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var userId =
+                    context.Principal?.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                    ?? context.Principal?.FindFirst("sub")?.Value;
+                Console.WriteLine(userId);
+
                 if (userId == null)
                 {
+                    Console.WriteLine("userId is null");
+
                     context.Fail("Unauthorized");
                     return;
                 }
@@ -60,6 +81,8 @@ builder.Services.AddAuthentication(option =>
                 var user = await userManager.FindByIdAsync(userId);
                 if (user == null)
                 {
+                    Console.WriteLine("user is null");
+
                     context.Fail("Unauthorized");
                     return;
                 }
@@ -68,12 +91,19 @@ builder.Services.AddAuthentication(option =>
                 var stampClaim = context.Principal?.FindFirst("AspNet.Identity.SecurityStamp")?.Value;
                 if (stampClaim != null && stampClaim != user.SecurityStamp)
                 {
+                    Console.WriteLine("Token is no longer");
+                    Console.WriteLine(stampClaim);
+
                     context.Fail("Token is no longer valid"); // logout invalidates this
                     return;
                 }
             }
         };
     });
+builder.Services.AddAntiforgery(options =>
+{
+    options.HeaderName = "X-XSRF-TOKEN"; // Angular's default CSRF header name
+});
 
 // Add services to the container.
 
@@ -132,8 +162,25 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddAutoMapper(cfg => cfg.AddProfile<OrderProfile>());
+
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngularApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials();
+        });
+});
+
 var app = builder.Build();
+app.UseCors("AllowAngularApp");
+
 await app.ApplyMigrationsAsync();
 
 // Configure the HTTP request pipeline.

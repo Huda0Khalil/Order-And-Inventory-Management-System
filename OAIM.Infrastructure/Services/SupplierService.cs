@@ -25,12 +25,12 @@ namespace OAIM.Application.Services
                 TenantId = createSupplierDto.TenantId
 
             };
-            Supplier result =  await _supplierRepository.AddAsync(supplier);
+            Supplier result = await _supplierRepository.AddAsync(supplier);
             await _unitOfWork.SaveChangesAsync();
             return result;
         }
 
-       
+
         public async Task<bool> DeleteSupplierAsync(int id)
         {
             bool result = await _supplierRepository.Delete(id);
@@ -42,7 +42,7 @@ namespace OAIM.Application.Services
         {
             pageSize = pageSize > 100 ? 100 : pageSize;
             var query = _supplierRepository
-           .GetAll()
+           .GetAll(null)
            .AsNoTracking();
             var totalCount = await query.CountAsync();
             var items = await query
@@ -57,6 +57,16 @@ namespace OAIM.Application.Services
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
+        }
+
+        public Task<List<Supplier>> GetListSupplier()
+        {
+            return _supplierRepository
+                .GetAll(null)
+                .AsNoTracking()
+                .OrderBy(s => s.Name)
+                .Select(s => new Supplier { Id = s.Id, Name = s.Name })
+                .ToListAsync();
         }
 
         public async Task<Supplier> GetSupplierByIdAsync(int id)

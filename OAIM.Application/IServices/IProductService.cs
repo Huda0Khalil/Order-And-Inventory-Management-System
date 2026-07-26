@@ -11,7 +11,7 @@ namespace OAIM.Application.IServices
 {
     public interface IProductService
     {
-        Task<PagedResult<Product>> GetAllProductsAsync(int pageNumber, int pageSize);
+        Task<PagedResult<Product>> GetAllProductsAsync(int pageNumber, int pageSize, int? CategoryId);
         Task<Product> GetProductByIdAsync(int id);
         Task<Product> CreateProductAsync(ProductDto createProductDto);
         Task<Product> UpdateProduct(int id, ProductDto updateProductDto);

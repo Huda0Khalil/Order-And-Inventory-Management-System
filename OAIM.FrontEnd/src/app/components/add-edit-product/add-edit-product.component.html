@@ -1,0 +1,166 @@
+<div class="modal-backdrop d-flex justify-content-center align-items-center bg-dark bg-opacity-50">
+
+    <div class="modal-content-custom bg-white rounded-4 shadow-lg p-4">
+
+        <h3 class="fw-bold text-center mb-4">
+            {{ mode === 'add' ? 'Add Product' : 'Edit Product' }}
+        </h3>
+
+        <form [formGroup]="form">
+
+            <hidden formControlName="Id"></hidden>
+
+            <div class="mb-3">
+                <label for="ProductName" class="form-label fw-semibold">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    id="ProductName"
+                    formControlName="Name">
+
+                @if (form.controls['Name'].invalid && form.controls['Name'].touched) {
+                    <small class="text-danger">
+                        Name is required and must be at least 3 characters long.
+                    </small>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label for="ProductBarcode" class="form-label fw-semibold">
+                    Barcode
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    id="ProductBarcode"
+                    formControlName="Barcode">
+
+                @if (form.controls['Barcode'].invalid && form.controls['Barcode'].touched) {
+                    <small class="text-danger">
+                        Barcode is required.
+                    </small>
+                }
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label for="ProductPrice" class="form-label fw-semibold">
+                        Price
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control form-control-lg"
+                        id="ProductPrice"
+                        step="any"
+                        placeholder="0.00"
+                        formControlName="Price">
+
+                    @if (form.controls['Price'].invalid && form.controls['Price'].touched) {
+                        <small class="text-danger">
+                            Price must be positive.
+                        </small>
+                    }
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="ProductStock" class="form-label fw-semibold">
+                        Stock Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control form-control-lg"
+                        id="ProductStock"
+                        formControlName="StockQuantity">
+
+                    @if (form.controls['StockQuantity'].invalid && form.controls['StockQuantity'].touched) {
+                        <small class="text-danger">
+                            Stock quantity is required.
+                        </small>
+                    }
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="ProductCategory" class="form-label fw-semibold">
+                    Category
+                </label>
+
+                <select
+                    class="form-select form-select-lg"
+                    id="ProductCategory"
+                    formControlName="CategoryId">
+
+                    @for (category of categories; track category.id) {
+                        <option [ngValue]="category.id">
+                            {{ category.name }}
+                        </option>
+                    }
+
+                </select>
+
+                @if(form.controls['CategoryId'].invalid && form.controls['CategoryId'].touched) {
+                    <small class="text-danger">
+                        Category is required.
+                    </small>
+                }
+            </div>
+
+            <div class="mb-4">
+                <label for="ProductSupplier" class="form-label fw-semibold">
+                    Supplier
+                </label>
+
+                <select
+                    class="form-select form-select-lg"
+                    id="ProductSupplier"
+                    formControlName="SupplierId">
+
+                    @for (supplier of suppliers; track supplier.id) {
+                        <option [ngValue]="supplier.id">
+                            {{ supplier.name }}
+                        </option>
+                    }
+
+                </select>
+
+                @if(form.controls['SupplierId'].invalid && form.controls['SupplierId'].touched) {
+                    <small class="text-danger">
+                        Supplier is required.
+                    </small>
+                }
+            </div>
+            <div class="modal-actions d-flex justify-content-end gap-2 pt-2 border-top">
+
+                <button
+                    class="btn btn-light px-4"
+                    (click)="closed.emit()">
+
+                    Cancel
+
+                </button>
+
+                <button
+                    class="btn btn-primary px-4"
+                    (click)="save()"
+                    [disabled]="form.invalid">
+
+                    {{ mode === 'add' ? 'Create' : 'Update' }}
+
+                </button>
+
+            </div>
+        </form>
+
+        
+
+    </div>
+
+</div>

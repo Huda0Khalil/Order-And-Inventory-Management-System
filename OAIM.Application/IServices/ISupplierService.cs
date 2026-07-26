@@ -12,6 +12,8 @@ namespace OAIM.Application.IServices
     public interface ISupplierService
     {
         Task<PagedResult<Supplier>> GetAllSuppliersAsync(int pageNumber, int pageSize);
+        public Task<List<Supplier>> GetListSupplier();
+        
         public Task<Supplier> GetSupplierByIdAsync(int id);
         public Task<Supplier> CreateSupplierAsync(SupplierDto supplier);
         public Task<Supplier> UpdateSupplier(int id, SupplierDto updateSupplierDto);

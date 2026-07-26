@@ -1,0 +1,24 @@
+table{
+    font-size:14px;
+}
+th{
+
+font-weight:600;
+
+color:#6B7280;
+
+background:#FAFAFA;
+
+}
+
+td{
+
+padding:14px;
+
+}
+
+tr:hover{
+
+background:#F9FAFB;
+
+}

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace OAIM.Application.Services
 {
@@ -22,7 +23,8 @@ namespace OAIM.Application.Services
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
         }
-        public async Task<Product> CreateProductAsync(ProductDto createProductDto)
+        public async Task<Product> CreateProductAsync(ProductDto
+            createProductDto)
         {
             var product = new Product();
             product.Name = createProductDto.Name;
@@ -44,21 +46,25 @@ namespace OAIM.Application.Services
             return result;
         }
 
-        public async Task<PagedResult<Product>> GetAllProductsAsync(int pageNumber, int pageSize)
+        public async Task<PagedResult<Product>> GetAllProductsAsync(int pageNumber, int pageSize, int? CategoryId)
         {
             pageSize = pageSize > 100 ? 100 : pageSize;
             var query = _productRepository
-                       .GetAll()
-                       .AsNoTracking()
-                       .Include(p => p.Category)
-                       .Include(p => p.Supplier);
-            var totalCount = await query.CountAsync();
+            .GetAll(includes: new[] { nameof(Product.Category), nameof(Product.Supplier) }).AsNoTracking();
 
-            var items = await query
+            if (CategoryId != 0)
+            {
+                query = query.Where(x => x.CategoryId == CategoryId);
+            }
+
+            var totalCount = query.Count();
+
+            var items = query
                         .OrderBy(p => p.Name)
                         .Skip((pageNumber - 1) * pageSize)
                         .Take(pageSize)
-                        .ToListAsync();
+                        .ToList();
+
             return new PagedResult<Product>
             {
                 Items = items,
@@ -66,7 +72,6 @@ namespace OAIM.Application.Services
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
-
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
@@ -75,20 +80,21 @@ namespace OAIM.Application.Services
             return result;
         }
 
-        public async Task<Product> UpdateProduct(int id, ProductDto updateProductDto)
+        public async Task<Product> UpdateProduct(int id, ProductDto dto)
         {
-            Product product = new Product()
-            {
-                Id = id,
-                Name = updateProductDto.Name,
-                Price = updateProductDto.Price,
-                Barcode = updateProductDto.Barcode,
-                StockQuantity = updateProductDto.StockQuantity,
-                CategoryId = updateProductDto.CategoryId,
-                SupplierId = updateProductDto.SupplierId,
-                TenantId = updateProductDto.TenantId
-            };
-            _productRepository.Update(product);
+            var product = await _productRepository.GetByIdAsync(id);
+
+            if (product == null)
+                throw new KeyNotFoundException($"Product with Id {id} was not found.");
+            product.Name = dto.Name;
+            product.Price = dto.Price;
+            product.Barcode = dto.Barcode;
+            product.StockQuantity = dto.StockQuantity;
+            product.CategoryId = dto.CategoryId;
+            product.SupplierId = dto.SupplierId;
+            product.TenantId = dto.TenantId;
+            
+            //await _productRepository.Update(product);
             await _unitOfWork.SaveChangesAsync();
             return product;
 

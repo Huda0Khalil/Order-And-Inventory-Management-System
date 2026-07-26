@@ -1,11 +1,10 @@
 ﻿using System.Linq.Expressions;
-using System.Security.Cryptography;
 
-namespace OAIM.Domain.Interfaces
+namespace OAIM.Application.Interfaces
 {
     public interface IRepository<T,TKey> where T : IEntity<TKey>
     {
-        IQueryable<T> GetAll();
+        IQueryable<T> GetAll(string[]? includes);
         //Task<T> GetByIdAsync(int id);
         //Task<T> GetByIdAsync(Guid id);
         Task<T> GetByIdAsync(Object id);

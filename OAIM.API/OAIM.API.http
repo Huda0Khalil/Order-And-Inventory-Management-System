@@ -1,5 +1,6 @@
 ﻿@OAIM.API_HostAddress = https://localhost:7211
-@id= 2487249D-5D29-48D5-AA9A-7538CAF4B5BF
+# @id= 2487249D-5D29-48D5-AA9A-7538CAF4B5BF
+@id = 3003
 POST {{OAIM.API_HostAddress}}/api/supplier
 tenant: Tenant3
 Content-Type: application/json
@@ -43,6 +44,10 @@ tenant: Tenant3
 //Category
 GET {{OAIM.API_HostAddress}}/api/category?pageNumber={{pageNumber}}&pageSize={{pageSize}}
 tenant:Tenant3
+###
+
+GET {{OAIM.API_HostAddress}}/api/category/getList
+tenant: Tenant3
 
 ###
 
@@ -62,7 +67,7 @@ PUT {{OAIM.API_HostAddress}}/api/category/{{id}}
 Content-Type: application/json
 tenant:Tenant3
 {
-  "Name":"Test",
+  "Name":"Test Category 2",
   "TenantId":"Tenant3"
 }
 
@@ -104,7 +109,7 @@ tenant:Tenant3
 {
   "Name":"Test Product3",
   "Price":"9.0",
-  "Barcode":"2000442",
+  "Barcode":"20004422",
   "CategoryId":"1",
   "SupplierId":"1",
   "StockQuantity":"20",
@@ -219,13 +224,17 @@ tenant: Tenant3
 POST {{OAIM.API_HostAddress}}/api/auth/login
 tenant: Tenant3
 Content-Type: application/json
-
 {
-  "Email":"admin@domain.com",
-  "Password":"P@ssw0rdAdmin",
-  "tenantId":"Tenant3"
+  "Email":"user1@gmail.com",
+   "Password":"P@ssw0rd",
+   "tenantId":"Tenant3"
 }
-
+###
+# {
+#   "Email":"admin@domain.com",
+#   "Password":"P@ssw0rdAdmin",
+#   "tenantId":"Tenant3"
+# }
 ###
 
 POST {{OAIM.API_HostAddress}}/api/auth/register
@@ -270,5 +279,12 @@ Content-Type: application/json
   "role": "Empolyee",
   "phoneNumber": "0781867585"
 }
+
+###
+
+
+GET {{OAIM.API_HostAddress}}/api/dashboard
+tenant: Tenant3
+
 
 ###

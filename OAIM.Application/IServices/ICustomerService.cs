@@ -13,6 +13,7 @@ namespace OAIM.Application.IServices
     {
         Task<Customer> GetCustomerById(int id);
         Task<PagedResult<Customer>> GetAllCustomersAsync(int pageNumber, int pageSize);
+        public Task<List<Customer>> GetListCustomer();
         Task<Customer> CreateCustomerAsync(CustomerDto customerDto);
         Task<bool> DeleteCustomerAsync(int id);
         Task<Customer> UpdateCustomer(int id, CustomerDto customerDto);

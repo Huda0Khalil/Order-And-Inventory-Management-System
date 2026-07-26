@@ -44,14 +44,15 @@ namespace OAIM.Application.Services
                     UpdateDate = null,
                     CustomerId = orderDto.CustomerId,
                     OrderDate = DateTime.Now,
-                    Items = new List<OrderItem>()
+                    Items = new List<OrderItem>(),
+                    CustomerType = orderDto.CustomerType
                 };
 
                 decimal totalAmount = 0;
 
                 var incomingItems = orderDto.Items.ToDictionary(i => i.ProductId);
 
-                var products = await _productRepository.GetAll()
+                var products = await _productRepository.GetAll(null)
                     .Where(p => incomingItems.Keys.Contains(p.Id))
                     .ToDictionaryAsync(p => p.Id);
 
@@ -128,7 +129,7 @@ namespace OAIM.Application.Services
                 }
                 var productIds = order.Items.Select(i => i.ProductId).ToList();
 
-                var products = await _productRepository.GetAll()
+                var products = await _productRepository.GetAll(null)
                     .Where(p => productIds.Contains(p.Id))
                     .ToDictionaryAsync(p => p.Id);
 
@@ -175,15 +176,15 @@ namespace OAIM.Application.Services
         {
             pageSize = pageSize > 100 ? 100 : pageSize;
             var query = _orderRepository
-           .GetAll()
-           .AsNoTracking()
-           .Include(o => o.Items)
-           .Include(o => o.Customer)
-           .Include(o => o.CreatedBy)
-           .Include(o => o.UpdatedBy);
+           .GetAll(includes: new[]
+            {
+               nameof(Order.Items), nameof(Order.Customer), nameof(Order.CreatedBy), nameof(Order.UpdatedBy)
+            }).AsNoTracking();
+          
             var totalCount = await query.CountAsync();
             var items = await query
-                        .OrderBy(o => o.Id)
+                        .OrderBy(o => o.Id).
+                        OrderBy(o => o.OrderDate)
                         .Skip((pageNumber - 1) * pageSize)
                         .Take(pageSize)
                         .ToListAsync();
@@ -197,9 +198,10 @@ namespace OAIM.Application.Services
         }
 
         public async Task<Order> GetOrderByIdAsync(int orderId)
+
         {
             return await _orderRepository
-                .FindAsync(o => o.Id == orderId, includes:[ i => i.Items, i => i.UpdatedBy, i => i.CreatedBy, i => i.Customer]);
+                .FindAsync(o => o.Id == orderId, includes: [i => i.Items, i => i.UpdatedBy, i => i.CreatedBy, i => i.Customer]);
         }
         public async Task<OrderResponseDto> UpdateOrder(int id, CreateOrderDto orderDto)
         {
@@ -214,7 +216,7 @@ namespace OAIM.Application.Services
                 order.CustomerId = orderDto.CustomerId;
                 order.UpdatedById = orderDto.UpdatedById;
                 order.UpdateDate = DateTime.Now;
-                order.CreatedById = order.CreatedById; 
+                order.CreatedById = order.CreatedById;
 
                 // Map existing items by ProductId
                 var existingItems = order.Items.ToDictionary(i => i.ProductId);
@@ -223,7 +225,7 @@ namespace OAIM.Application.Services
                 var incomingItems = orderDto.Items.ToDictionary(i => i.ProductId);
 
                 var productIIds = existingItems.Keys.Union(incomingItems.Keys).Distinct().ToList();
-                var products = await _productRepository.GetAll()
+                var products = await _productRepository.GetAll(null)
                     .Where(p => productIIds.Contains(p.Id))
                     .ToDictionaryAsync(p => p.Id);
                 var itemsToRemove = new List<OrderItem>();
@@ -244,12 +246,12 @@ namespace OAIM.Application.Services
 
                     if (existingItems.TryGetValue(incoming.Key, out var existingItem))
                     {
-                        if(newQty < 0)
+                        if (newQty < 0)
                         {
                             _logger.Warning($"Invalid quantity for Product {product.Id} during order update. Quantity must be greater than zero. Provided: {newQty}");
                             throw new InvalidOperationException($"Quantity for product '{product.Name}' must be greater than zero.");
                         }
-                        if(newQty == 0)
+                        if (newQty == 0)
                         {
                             // Handle as removal
                             product.StockQuantity += existingItem.Quantity;
@@ -267,8 +269,8 @@ namespace OAIM.Application.Services
                                      $"Insufficient stock for product '{product.Name}'. Available: {product.StockQuantity}");
 
                         }
-                        
-                            product.StockQuantity -= delta; // if delta negative → stock increases
+
+                        product.StockQuantity -= delta; // if delta negative → stock increases
                         existingItem.Quantity = newQty;
                         existingItem.UnitPrice = product.Price;
                     }
@@ -292,7 +294,7 @@ namespace OAIM.Application.Services
                             UnitPrice = product.Price
                         });
                     }
-                   
+
                     totalAmount += newQty * product.Price;
                 }
 
@@ -343,8 +345,10 @@ namespace OAIM.Application.Services
         public Task<List<Order>> GetOrdersByUserIdAsync(Guid userId, int pageNumber, int pageSize)
         {
             var query = _orderRepository
-                .GetAll()
-                .AsNoTracking()
+            .GetAll(includes: new[]
+            {
+                nameof(Order.Items), nameof(Order.Customer), nameof(Order.CreatedBy), nameof(Order.UpdatedBy)
+            }).AsNoTracking()
                 .Include(o => o.Items)
                 .Include(o => o.Customer)
                 .Include(o => o.CreatedBy)
@@ -357,74 +361,7 @@ namespace OAIM.Application.Services
                         .ToListAsync();
         }
 
-        //public async Task<Order> UpdateOrder(int id, CreateOrderDto orderDto)
-        //{
-        //    using var transaction = _unitOfWork.BeginTransactionAsync();
-        //    try
-        //    {
-        //        Order order = await _orderRepository.GetByIdAsync(id);
-        //        if (order == null)
-        //            throw new Exception($"Order with ID {id} not found.");
-        //        order.CustomerId = orderDto.CustomerId;
-        //        var existingItems = order.Items.ToDictionary(i => i.ProductId);
-        //        var incomingItems = orderDto.Items.ToDictionary(i => i.ProductId);
-        //        decimal totalAmount = 0;
-        //        foreach (var incomingItem in incomingItems)
-        //        {
-        //            var product = await _productService.GetProductByIdAsync(incomingItem.Key);
-        //            if (product == null)
-        //                throw new Exception($"Product with ID {incomingItem.Key} not found.");
-        //            if (product.StockQuantity < incomingItem.Value.Quantity)
-        //                throw new Exception($"Insufficient stock for product {product.Name}.");
-        //            var newQty = incomingItem.Value.Quantity;
-        //            if (existingItems.TryGetValue(incomingItem.Key, out var existingItem))
-        //            {
-        //                existingItem.Quantity = incomingItem.Value.Quantity;
-        //                existingItem.UnitPrice = product.Price;
-        //            }
-        //            else
-        //            {
-        //                var orderItem = new OrderItem
-        //                {
-        //                    ProductId = product.Id,
-        //                    Quantity = incomingItem.Value.Quantity,
-        //                    UnitPrice = product.Price
-        //                };
-        //                order.Items.Add(orderItem);
-        //            }
-        //            totalAmount += incomingItem.Value.Quantity * product.Price;
-
-        //        }
-
-        //    }
-        //    catch
-        //    {
-
-        //    }
-
-
-        //    ////order.OrderDate = DateTime.UtcNow;
-        //    //order.Items.Clear();
-
-        //    //foreach (var item in orderDto.Items)
-        //    //{
-        //    //    var product = await _productService.GetProductByIdAsync(item.ProductId);
-        //    //    if (product == null)
-        //    //        throw new Exception($"Product with ID {item.ProductId} not found.");
-        //    //    if (product.StockQuantity < item.Quantity)
-        //    //        throw new Exception($"Insufficient stock for product {product.Name}.");
-        //    //    var orderItem = new OrderItem
-        //    //    {
-        //    //        ProductId = product.Id,
-        //    //        Quantity = item.Quantity,
-        //    //        UnitPrice = product.Price
-        //    //    };
-        //    //    totalAmount += item.Quantity * product.Price;
-        //    //    order.Items.Add(orderItem);
-        //    //}
-        //    //order.TotalAmount = totalAmount;
-        //    //var result = await _orderRepository.Update(order);
-        //    //return result;
-        //}
+       
+       
     }
 }

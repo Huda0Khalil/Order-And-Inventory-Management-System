@@ -38,6 +38,16 @@ namespace OAIM.API.Controllers
             }
             return Ok(result);
         }
+        [HttpGet("getList")]
+        public async Task<IActionResult> GetAllCustomers()
+        {
+            var result = await _customerService.GetListCustomer();
+            if ((result == null))
+            {
+                return NotFound("No Customers found.");
+            }
+            return Ok(result);
+        }
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetCustomerById(int id)

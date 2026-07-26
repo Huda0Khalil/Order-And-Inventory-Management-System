@@ -1,0 +1,564 @@
+{
+  "Products": [
+    {
+      "Id": 1,
+      "Name": "Test Product1",
+      "Price": 10,
+      "Barcode": "2000441",
+      "StockQuantity": 18,
+      "CategoryId": 1,
+      "SupplierId": 1,
+      "TenantId": "Tenant3",
+      "RowVersion": "\u0000\u0000\u0000\u0000\u0000\u0000F\\",
+      "id": "1"
+    },
+    {
+      "Id": 2,
+      "Name": "Test Product2",
+      "Price": 10,
+      "Barcode": "2000442",
+      "StockQuantity": 7,
+      "CategoryId": 1,
+      "SupplierId": 1,
+      "TenantId": "Tenant3",
+      "RowVersion": "\u0000\u0000\u0000\u0000\u0000\u0000F[",
+      "id": "2"
+    },
+    {
+      "Id": 3,
+      "Name": "Test Product3",
+      "Price": 11,
+      "Barcode": "2000443",
+      "StockQuantity": 8,
+      "CategoryId": 1,
+      "SupplierId": 1,
+      "TenantId": "Tenant3",
+      "RowVersion": "\u0000\u0000\u0000\u0000\u0000\u0000F\\",
+      "id": "3"
+    },
+    {
+      "Id": 4,
+      "Name": "Test Product4",
+      "Price": 12,
+      "Barcode": "2000444",
+      "StockQuantity": 18,
+      "CategoryId": 1,
+      "SupplierId": 1,
+      "TenantId": "Tenant3",
+      "RowVersion": "\u0000\u0000\u0000\u0000\u0000\u0000F\\",
+      "id": "4"
+    },
+    {
+      "Id": 5,
+      "Name": "Test Product5",
+      "Price": 13,
+      "Barcode": "2000445",
+      "StockQuantity": 18,
+      "CategoryId": 1,
+      "SupplierId": 1,
+      "TenantId": "Tenant3",
+      "RowVersion": "\u0000\u0000\u0000\u0000\u0000\u0000F\\",
+      "id": "5"
+    },
+    {
+      "Id": 6,
+      "Name": "Test Product6",
+      "Price": 16,
+      "Barcode": "2000446",
+      "StockQuantity": 11,
+      "CategoryId": 1,
+      "SupplierId": 1,
+      "TenantId": "Tenant3",
+      "RowVersion": "\u0000\u0000\u0000\u0000\u0000\u0000F\\",
+      "id": "6"
+    },
+    {
+      "Id": 7,
+      "Name": "Test Product7",
+      "Price": 30,
+      "Barcode": "2000447",
+      "StockQuantity": 0,
+      "CategoryId": 1,
+      "SupplierId": 1,
+      "id": "7"
+    },
+    {
+      "Id": 8,
+      "Name": "Test Product8",
+      "Price": 11,
+      "Barcode": "2000448",
+      "StockQuantity": 0,
+      "CategoryId": 3,
+      "SupplierId": 1,
+      "id": "8"
+    },
+    {
+      "Id": 11,
+      "Name": "Test Product11",
+      "Price": 15,
+      "Barcode": "2000451",
+      "StockQuantity": 22,
+      "CategoryId": 2,
+      "SupplierId": 1,
+      "TenantId": "Tenant3",
+      "RowVersion": "\u0000\u0000\u0000\u0000\u0000\u0000F\\",
+      "id": "11"
+    }
+  ],
+  "Customers": [
+    {
+      "Id": 1,
+      "FirstName": "yyyy2",
+      "LastName": "yyyy2",
+      "Email": "yyyy2@gmail.com",
+      "PhoneNumber": "0785432169",
+      "Address": "Amman",
+      "CustomerType": 1,
+      "TenantId": "Tenant3",
+      "id": "8p-QMStZhMs"
+    }
+  ],
+  "Categories": [
+    {
+      "Id": 1,
+      "Name": "Test category",
+      "TenantId": "Tenant3",
+      "id": "1"
+    },
+    {
+      "Id": 2,
+      "Name": "Test category2",
+      "TenantId": "Tenant3",
+      "id": "2"
+    },
+    {
+      "Id": 4,
+      "Name": "cat1",
+      "id": "4"
+    },
+    {
+      "Id": 5,
+      "Name": "cat2",
+      "id": "5"
+    }
+  ],
+  "Suppliers": [
+    {
+      "Id": 1,
+      "Name": "Test Supplier3",
+      "ContactEmail": "test3@gmal.com",
+      "PhoneNumber": "0796541238",
+      "Address": "Amman",
+      "TenantId": "Tenant3",
+      "id": "xg4WFceNb5E"
+    }
+  ],
+  "Orders":[
+{
+    "items": [
+        {
+            "id": 6,
+            "orderDate": "2026-04-16T16:08:56.2601755",
+            "customer": null,
+            "customerId": null,
+            "items": [
+                {
+                    "id": 1003,
+                    "order": null,
+                    "orderId": 6,
+                    "product": null,
+                    "productId": 2,
+                    "quantity": 1,
+                    "unitPrice": 10.00,
+                    "tenantId": "Tenant3"
+                }
+            ],
+            "totalAmount": 10.00,
+            "tenantId": "Tenant3",
+            "createdBy": {
+                "id": "2487249d-5d29-48d5-aa9a-7538caf4b5bf",
+                "userName": "TestUser1",
+                "email": "testuser@example.com",
+                "phoneNumber": "0781867585",
+                "tenantId": "Tenant3",
+                "orders": [
+                    null
+                ]
+            },
+            "createdById": "2487249d-5d29-48d5-aa9a-7538caf4b5bf",
+            "updatedBy": {
+                "id": "2487249d-5d29-48d5-aa9a-7538caf4b5bf",
+                "userName": "TestUser1",
+                "email": "testuser@example.com",
+                "phoneNumber": "0781867585",
+                "tenantId": "Tenant3",
+                "orders": null
+            },
+            "updatedById": "2487249d-5d29-48d5-aa9a-7538caf4b5bf",
+            "updateDate": "2026-04-16T16:19:15.0292475",
+            "customerType": 0
+        },
+        {
+            "id": 2002,
+            "orderDate": "2026-07-03T16:27:01.2960341",
+            "customer": {
+                "id": 4,
+                "firstName": "cus3",
+                "lastName": "cus33",
+                "email": "cus3@gmail.com",
+                "phoneNumber": "0784152639",
+                "address": "Irbid",
+                "tenantId": "Tenant3"
+            },
+            "customerId": 4,
+            "items": [
+                {
+                    "id": 2002,
+                    "order": null,
+                    "orderId": 2002,
+                    "product": null,
+                    "productId": 1002,
+                    "quantity": 1,
+                    "unitPrice": 10.00,
+                    "tenantId": "Tenant3"
+                }
+            ],
+            "totalAmount": 10.00,
+            "tenantId": "Tenant3",
+            "createdBy": {
+                "id": "f5c25fd6-938c-4463-8078-6d8877fce400",
+                "userName": "User1",
+                "email": "user1@gmail.com",
+                "phoneNumber": "0785432169",
+                "tenantId": "Tenant3",
+                "orders": [
+                    null
+                ]
+            },
+            "createdById": "f5c25fd6-938c-4463-8078-6d8877fce400",
+            "updatedBy": null,
+            "updatedById": null,
+            "updateDate": null,
+            "customerType": 0
+        },
+        {
+            "id": 2003,
+            "orderDate": "2026-07-03T16:28:50.5042804",
+            "customer": {
+                "id": 4,
+                "firstName": "cus3",
+                "lastName": "cus33",
+                "email": "cus3@gmail.com",
+                "phoneNumber": "0784152639",
+                "address": "Irbid",
+                "tenantId": "Tenant3"
+            },
+            "customerId": 4,
+            "items": [
+                {
+                    "id": 2003,
+                    "order": null,
+                    "orderId": 2003,
+                    "product": null,
+                    "productId": 1,
+                    "quantity": 1,
+                    "unitPrice": 10.00,
+                    "tenantId": "Tenant3"
+                }
+            ],
+            "totalAmount": 10.00,
+            "tenantId": "Tenant3",
+            "createdBy": {
+                "id": "f5c25fd6-938c-4463-8078-6d8877fce400",
+                "userName": "User1",
+                "email": "user1@gmail.com",
+                "phoneNumber": "0785432169",
+                "tenantId": "Tenant3",
+                "orders": [
+                    null
+                ]
+            },
+            "createdById": "f5c25fd6-938c-4463-8078-6d8877fce400",
+            "updatedBy": null,
+            "updatedById": null,
+            "updateDate": null,
+            "customerType": 0
+        },
+        {
+            "id": 3002,
+            "orderDate": "2026-07-05T12:04:50.4969226",
+            "customer": null,
+            "customerId": null,
+            "items": [
+                {
+                    "id": 3002,
+                    "order": null,
+                    "orderId": 3002,
+                    "product": null,
+                    "productId": 1002,
+                    "quantity": 1,
+                    "unitPrice": 10.00,
+                    "tenantId": "Tenant3"
+                }
+            ],
+            "totalAmount": 10.00,
+            "tenantId": "Tenant3",
+            "createdBy": {
+                "id": "f5c25fd6-938c-4463-8078-6d8877fce400",
+                "userName": "User1",
+                "email": "user1@gmail.com",
+                "phoneNumber": "0785432169",
+                "tenantId": "Tenant3",
+                "orders": [
+                    null
+                ]
+            },
+            "createdById": "f5c25fd6-938c-4463-8078-6d8877fce400",
+            "updatedBy": null,
+            "updatedById": null,
+            "updateDate": null,
+            "customerType": 0
+        },
+        {
+            "id": 3003,
+            "orderDate": "2026-07-05T12:06:45.3318503",
+            "customer": {
+                "id": 4,
+                "firstName": "cus3",
+                "lastName": "cus33",
+                "email": "cus3@gmail.com",
+                "phoneNumber": "0784152639",
+                "address": "Irbid",
+                "tenantId": "Tenant3"
+            },
+            "customerId": 4,
+            "items": [
+                {
+                    "id": 3003,
+                    "order": null,
+                    "orderId": 3003,
+                    "product": null,
+                    "productId": 1002,
+                    "quantity": 1,
+                    "unitPrice": 10.00,
+                    "tenantId": "Tenant3"
+                }
+            ],
+            "totalAmount": 10.00,
+            "tenantId": "Tenant3",
+            "createdBy": {
+                "id": "f5c25fd6-938c-4463-8078-6d8877fce400",
+                "userName": "User1",
+                "email": "user1@gmail.com",
+                "phoneNumber": "0785432169",
+                "tenantId": "Tenant3",
+                "orders": [
+                    null
+                ]
+            },
+            "createdById": "f5c25fd6-938c-4463-8078-6d8877fce400",
+            "updatedBy": null,
+            "updatedById": null,
+            "updateDate": null,
+            "customerType": 0
+        },
+        {
+            "id": 3004,
+            "orderDate": "2026-07-05T12:32:51.8084816",
+            "customer": null,
+            "customerId": null,
+            "items": [
+                {
+                    "id": 3004,
+                    "order": null,
+                    "orderId": 3004,
+                    "product": null,
+                    "productId": 1,
+                    "quantity": 1,
+                    "unitPrice": 10.00,
+                    "tenantId": "Tenant3"
+                }
+            ],
+            "totalAmount": 10.00,
+            "tenantId": "Tenant3",
+            "createdBy": {
+                "id": "f5c25fd6-938c-4463-8078-6d8877fce400",
+                "userName": "User1",
+                "email": "user1@gmail.com",
+                "phoneNumber": "0785432169",
+                "tenantId": "Tenant3",
+                "orders": [
+                    null
+                ]
+            },
+            "createdById": "f5c25fd6-938c-4463-8078-6d8877fce400",
+            "updatedBy": null,
+            "updatedById": null,
+            "updateDate": null,
+            "customerType": 0
+        },
+        {
+            "id": 3005,
+            "orderDate": "2026-07-05T12:36:39.1071837",
+            "customer": null,
+            "customerId": null,
+            "items": [
+                {
+                    "id": 3005,
+                    "order": null,
+                    "orderId": 3005,
+                    "product": null,
+                    "productId": 1002,
+                    "quantity": 1,
+                    "unitPrice": 10.00,
+                    "tenantId": "Tenant3"
+                }
+            ],
+            "totalAmount": 10.00,
+            "tenantId": "Tenant3",
+            "createdBy": {
+                "id": "f5c25fd6-938c-4463-8078-6d8877fce400",
+                "userName": "User1",
+                "email": "user1@gmail.com",
+                "phoneNumber": "0785432169",
+                "tenantId": "Tenant3",
+                "orders": [
+                    null
+                ]
+            },
+            "createdById": "f5c25fd6-938c-4463-8078-6d8877fce400",
+            "updatedBy": null,
+            "updatedById": null,
+            "updateDate": null,
+            "customerType": 0
+        },
+        {
+            "id": 4002,
+            "orderDate": "2026-07-08T12:57:54.9087334",
+            "customer": {
+                "id": 4,
+                "firstName": "cus3",
+                "lastName": "cus33",
+                "email": "cus3@gmail.com",
+                "phoneNumber": "0784152639",
+                "address": "Irbid",
+                "tenantId": "Tenant3"
+            },
+            "customerId": 4,
+            "items": [
+                {
+                    "id": 4002,
+                    "order": null,
+                    "orderId": 4002,
+                    "product": null,
+                    "productId": 3002,
+                    "quantity": 1,
+                    "unitPrice": 18.00,
+                    "tenantId": "Tenant3"
+                }
+            ],
+            "totalAmount": 18.00,
+            "tenantId": "Tenant3",
+            "createdBy": {
+                "id": "f5c25fd6-938c-4463-8078-6d8877fce400",
+                "userName": "User1",
+                "email": "user1@gmail.com",
+                "phoneNumber": "0785432169",
+                "tenantId": "Tenant3",
+                "orders": [
+                    null
+                ]
+            },
+            "createdById": "f5c25fd6-938c-4463-8078-6d8877fce400",
+            "updatedBy": null,
+            "updatedById": null,
+            "updateDate": null,
+            "customerType": 1
+        },
+        {
+            "id": 5002,
+            "orderDate": "2026-07-09T12:41:33.9448061",
+            "customer": {
+                "id": 4,
+                "firstName": "cus3",
+                "lastName": "cus33",
+                "email": "cus3@gmail.com",
+                "phoneNumber": "0784152639",
+                "address": "Irbid",
+                "tenantId": "Tenant3"
+            },
+            "customerId": 4,
+            "items": [
+                {
+                    "id": 5002,
+                    "order": null,
+                    "orderId": 5002,
+                    "product": null,
+                    "productId": 2,
+                    "quantity": 1,
+                    "unitPrice": 10.00,
+                    "tenantId": "Tenant3"
+                }
+            ],
+            "totalAmount": 10.00,
+            "tenantId": "Tenant3",
+            "createdBy": {
+                "id": "f5c25fd6-938c-4463-8078-6d8877fce400",
+                "userName": "User1",
+                "email": "user1@gmail.com",
+                "phoneNumber": "0785432169",
+                "tenantId": "Tenant3",
+                "orders": [
+                    null
+                ]
+            },
+            "createdById": "f5c25fd6-938c-4463-8078-6d8877fce400",
+            "updatedBy": null,
+            "updatedById": null,
+            "updateDate": null,
+            "customerType": 1
+        },
+        {
+            "id": 5003,
+            "orderDate": "2026-07-09T12:42:55.3979986",
+            "customer": null,
+            "customerId": null,
+            "items": [
+                {
+                    "id": 5003,
+                    "order": null,
+                    "orderId": 5003,
+                    "product": null,
+                    "productId": 3002,
+                    "quantity": 1,
+                    "unitPrice": 18.00,
+                    "tenantId": "Tenant3"
+                }
+            ],
+            "totalAmount": 18.00,
+            "tenantId": "Tenant3",
+            "createdBy": {
+                "id": "f5c25fd6-938c-4463-8078-6d8877fce400",
+                "userName": "User1",
+                "email": "user1@gmail.com",
+                "phoneNumber": "0785432169",
+                "tenantId": "Tenant3",
+                "orders": [
+                    null
+                ]
+            },
+            "createdById": "f5c25fd6-938c-4463-8078-6d8877fce400",
+            "updatedBy": null,
+            "updatedById": null,
+            "updateDate": null,
+            "customerType": 0
+        }
+    ],
+    "totalCount": 13,
+    "pageNumber": 1,
+    "pageSize": 10
+}
+  ],
+  
+  "$schema": "./node_modules/json-server/schema.json"
+}

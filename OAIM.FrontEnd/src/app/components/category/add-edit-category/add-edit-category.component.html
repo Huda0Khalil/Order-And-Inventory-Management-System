@@ -1,0 +1,53 @@
+<div class="modal-backdrop d-flex justify-content-center align-items-center bg-dark bg-opacity-50">
+
+    <div class="modal-content-custom bg-white rounded-4 shadow-lg p-4">
+
+        <h3 class="fw-bold text-center mb-4">
+            {{ modalMode === 'add' ? 'Add Category' : 'Edit Category' }}
+        </h3>
+
+        <form [formGroup]="form">
+
+            <input type="hidden" formControlName="Id">
+
+            <div class="mb-3">
+                <label for="CategoryName" class="form-label fw-semibold">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    id="CategoryName"
+                    formControlName="Name">
+
+                @if (form.controls['Name'].invalid && form.controls['Name'].touched) {
+                    <small class="text-danger">
+                        Name is required and must be at least 3 characters long.
+                    </small>
+                }
+            </div>          
+            <div class="modal-actions d-flex justify-content-end gap-2 pt-2 border-top">
+
+            <button
+                class="btn btn-light px-4"
+                (click)="closed.emit()">
+                Cancel
+            </button>
+
+            <button
+                class="btn btn-primary px-4"
+                (click)="save()"
+                [disabled]="form.invalid">
+
+                {{ modalMode === 'add' ? 'Create' : 'Update' }}
+            </button>
+
+        </div> 
+        </form>
+
+        
+
+    </div>
+
+</div>

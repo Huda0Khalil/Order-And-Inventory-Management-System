@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using OAIM.Application.DTO;
+using System.Linq;
 using System.Security.Claims;
 
 namespace OAIM.API.Controllers
@@ -18,7 +19,7 @@ namespace OAIM.API.Controllers
             _authService = authService;
         }
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromHeader(Name = "tenant")] string tenant,[FromBody] LoginDto dto)
+        public async Task<IActionResult> Login([FromHeader(Name = "tenant")] string tenant, [FromBody] LoginDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -26,11 +27,26 @@ namespace OAIM.API.Controllers
             try
             {
                 var result = await _authService.LoginAsync(dto);
+                var cookieOptions = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = DateTimeOffset.UtcNow.AddHours(1)
+                };
 
+                Response.Cookies.Append("auth_token", result.Token, cookieOptions);
                 return Ok(new
                 {
                     message = "Login successful",
-                    data = result
+                    user = new
+                    {
+                        userName = result.UserName,
+                        userId = result.UserId,
+                        email = result.Email,
+                        role = result.Role
+                    }
+                    
                 });
             }
             catch (Exception ex)
@@ -78,15 +94,32 @@ namespace OAIM.API.Controllers
         [HttpPost("logout")]
         public async Task<IActionResult> Logout([FromHeader(Name = "tenant")] string tenant)
         {
+            Console.WriteLine(User);
             // Get user ID from JWT claims
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.FindFirstValue("userId");
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized("Invalid token");
 
             var result = await _authService.LogoutAsync(userId);
-            return Ok(new { Message = result });
+            Response.Cookies.Append("auth_token", "", new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddDays(-1),
+                Secure = true,
+                HttpOnly = true,
+                SameSite = SameSiteMode.None,
+                Path = "/"
+            }); return Ok(new { Message = result });
         }
-
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            return Ok(new
+            {
+                User.Identity!.Name,
+                Role = User.FindFirst(ClaimTypes.Role)?.Value
+            });
+        }
 
     }
 }

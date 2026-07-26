@@ -1,0 +1,114 @@
+<div class="col-12 col-lg-4">
+  <div class="card shadow-sm order-details">
+    <div class="card-body">
+      <h3>Order Details</h3>
+      <table>
+        <tr>
+          <td class="fw-bold fs-5">Created By: </td>
+          <td>{{ order?.createdBy.userName }}</td>
+        </tr>
+        <tr>
+          <td class="fw-bold fs-5" >Date:  </td>
+          <td>{{ order?.orderDate |date : 'medium'}}</td>
+        </tr>
+         <tr>
+          <td class="fw-bold fs-5" >Customer : </td>
+          <td>{{ order?.customer?.firstName? order.customer?.firstName:'Null'}}</td>
+        </tr>
+        <tr>
+          <td class="fw-bold fs-5" >Customer Type:   </td>
+          <td>{{ CustomerType[order?.customerType] }}</td>
+        </tr>
+      </table>
+      <div class="d-flex justify-content-between mt-4 mb-3">
+          <h5>Cart</h5>
+
+          <span class="bg-info rounded-pill p-2">
+            {{ order?.items.length }} items
+          </span>
+        </div>
+      <table>
+        <thead>
+          <th>Product</th>
+          <th>Price per unit</th>
+          <th>Quantity</th>
+          <th>Total</th>
+        </thead>
+        <tbody>
+          @for(item of order?.items; track $index){
+<tr>
+            <td>{{ productCache[item?.productId]?.name}}</td>
+            <td> {{ item?.unitPrice}}</td>
+            <td> {{item?.quantity}}</td>
+            <td> {{ (item?.unitPrice * item.quantity) }}</td>
+          </tr>
+          }
+            
+        
+          
+          
+          
+        </tbody>
+      </table>
+        <!-- Summary -->
+        <div class="mt-4 d-flex justify-content-between">
+          <h5>Subtotal:</h5>
+          <h5>
+            {{ subtotal | currency:'USD' }}
+          </h5>
+        </div>
+
+
+        <div class="mt-3 d-flex justify-content-between">
+          <h5>Items:</h5>
+          <h5>
+            {{ order?.items.length }}
+          </h5>
+        </div>
+
+
+        <div class="mt-3 d-flex justify-content-between">
+          <h5>Total:</h5>
+          <h5>
+            {{ total | currency:'USD' }}
+          </h5>
+        </div>
+     
+    </div>
+  </div>
+</div>
+<!-- {
+    "id": 5003,
+    "orderDate": "2026-07-09T12:42:55.3979986",
+    "customer": null,
+    "customerId": null,
+    "items": [
+        {
+            "id": 5003,
+            "order": null,
+            "orderId": 5003,
+            "product": null,
+            "productId": 3002,
+            "quantity": 1,
+            "unitPrice": 18,
+            "tenantId": "Tenant3"
+        }
+    ],
+    "totalAmount": 18,
+    "tenantId": "Tenant3",
+    "createdBy": {
+        "id": "f5c25fd6-938c-4463-8078-6d8877fce400",
+        "userName": "User1",
+        "email": "user1@gmail.com",
+        "phoneNumber": "0785432169",
+        "tenantId": "Tenant3",
+        "orders": [
+            null
+        ]
+    },
+    "createdById": "f5c25fd6-938c-4463-8078-6d8877fce400",
+    "updatedBy": null,
+    "updatedById": null,
+    "updateDate": null,
+    "customerType": 0
+} -->

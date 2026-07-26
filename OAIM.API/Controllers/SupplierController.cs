@@ -37,6 +37,16 @@ namespace OAIM.API.Controllers
             }
             return Ok(result);
         }
+        [HttpGet("getList")]
+        public async Task<IActionResult> GetAllSuppliers()
+        {
+            var result = await _supplierService.GetListSupplier();
+            if ((result == null))
+            {
+                return NotFound("No suppliers found.");
+            }
+            return Ok(result);
+        }
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetSupplierById(int id)

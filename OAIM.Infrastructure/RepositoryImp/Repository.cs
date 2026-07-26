@@ -58,9 +58,19 @@ namespace OAIM.Infrastructure.RepositoryImp
 
         //    return await query.ToListAsync();
         //}
-        public IQueryable<T> GetAll()
+        public IQueryable<T> GetAll(string[]? includes)
         {
-            return _context.Set<T>();
+            IQueryable<T> query = _context.Set<T>();
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return query;
         }
 
         public async Task<T> GetByIdAsync(Object id)

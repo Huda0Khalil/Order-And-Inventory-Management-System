@@ -1,0 +1,76 @@
+<main class="layout">
+
+  <aside
+    class="sidebar"
+    [class.collapsed]="!isSidebarOpen && !isMobile"
+    [class.mobile-open]="isSidebarOpen && isMobile">
+
+    <div class="sidebar-header">
+
+      <h4 *ngIf="isSidebarOpen || isMobile" >OAIM </h4>
+
+      <button
+        class="desktop-toggle d-none d-md-block"
+        (click)="toggleSidebar()">
+
+        <i class="bi bi-list"></i>
+
+      </button>
+
+      <button
+        class="close-btn d-md-none"
+        (click)="toggleSidebar()">
+
+        <i class="bi bi-x-lg"></i>
+
+      </button>
+
+    </div>
+
+    <ul>
+
+      <li *ngFor="let item of menuItems">
+
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active">
+
+          <i [class]="item.icon"></i>
+
+          <span *ngIf="isSidebarOpen || isMobile">
+            {{ item.label }}
+          </span>
+
+        </a>
+
+      </li>
+
+    </ul>
+
+  </aside>
+
+  <div
+    class="overlay"
+    *ngIf="isMobile && isSidebarOpen"
+    (click)="toggleSidebar()">
+  </div>
+
+  <section class="content">
+
+    <header class="mobile-header d-md-none">
+
+      <button
+        class="menu-btn"
+        (click)="toggleSidebar()">
+
+        <i class="bi bi-list"></i>
+
+      </button>
+
+    </header>
+
+    <router-outlet></router-outlet>
+
+  </section>
+
+</main>

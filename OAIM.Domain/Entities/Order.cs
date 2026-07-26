@@ -25,5 +25,13 @@ namespace OAIM.Domain.Entities
         public User? UpdatedBy { get; set; }
         public Guid? UpdatedById { get; set; }
         public DateTime? UpdateDate { get; set; }
+        public CustomerType CustomerType { get; set; } = CustomerType.
+           Retail;
+
+    }
+    public enum CustomerType
+    {
+        Retail,
+        Wholesale
     }
 }

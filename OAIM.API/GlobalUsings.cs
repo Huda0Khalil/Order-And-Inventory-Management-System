@@ -8,4 +8,5 @@ global using OAIM.Infrastructure.Identity;
 global using Microsoft.AspNetCore.Identity;
 global using OAIM.Infrastructure.Data;
 global using OAIM.Domain.Interfaces;
+global using Microsoft.AspNetCore.Authorization;
 

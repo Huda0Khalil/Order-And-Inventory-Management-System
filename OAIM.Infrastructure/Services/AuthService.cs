@@ -36,7 +36,7 @@ namespace OAIM.Application.Services
             _logger = logger;
         } 
 
-        public async Task<string> LoginAsync(LoginDto dto)
+      public async Task<LoginResponseDto> LoginAsync(LoginDto dto)
         {
             _logger.LogInformation("Login attempt for email: {Email}", dto.Email);
 
@@ -47,19 +47,29 @@ namespace OAIM.Application.Services
                 _logger.LogWarning("Login failed for email: {Email}. User not found or tenant mismatch.", dto.Email);
                 throw new Exception("Invalid credentials");
             }
-                
 
+            var roles = await _userManager.GetRolesAsync(user);
             var result = await _userManager.CheckPasswordAsync(user, dto.Password);
 
             if (!result)
             {
                 _logger.LogWarning("Login failed — wrong password for email: {Email}", dto.Email);
                 throw new Exception("Invalid credentials");
-
             }
+
             _logger.LogInformation("Login successful for email: {Email} | TenantId: {TenantId}",
             dto.Email, user.TenantId);
-            return await GenerateJwtToken(user);
+
+            var token = await GenerateJwtToken(user);
+            var role = roles.FirstOrDefault() ?? "";
+            return new LoginResponseDto
+            {
+                Token = token,
+                Role = role,
+                UserName = user.UserName,
+                UserId = user.Id,
+                Email = user.Email
+            };
         }
 
         public async Task<string> RegisterAsync(RegisterDto dto)
@@ -153,6 +163,7 @@ namespace OAIM.Application.Services
             {
                 new Claim("tenantId", user.TenantId),
                 new Claim("domainUserId", user.DomainUserId.ToString()),
+                new Claim("userId", user.Id),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),

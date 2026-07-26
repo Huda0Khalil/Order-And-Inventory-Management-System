@@ -14,11 +14,11 @@ namespace OAIM.Infrastructure.Services
     public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IRepository<User,Guid> _userRepository;
+        private readonly IRepository<User, Guid> _userRepository;
         private readonly ILogger<UserService> _logger;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(UserManager<ApplicationUser> userManager, IRepository<User, Guid> userRepository,ILogger<UserService> logger, IUnitOfWork unitOfWork)
+        public UserService(UserManager<ApplicationUser> userManager, IRepository<User, Guid> userRepository, ILogger<UserService> logger, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _userRepository = userRepository;
@@ -41,7 +41,7 @@ namespace OAIM.Infrastructure.Services
 
                 await _userManager.DeleteAsync(identityUser);
 
-                var domainUser = await _userRepository.GetAll().FirstOrDefaultAsync(i => i.Id == id);
+                var domainUser = await _userRepository.GetAll(null).FirstOrDefaultAsync(i => i.Id == id);
                 if (domainUser != null)
                     _userRepository.Delete(domainUser);
                 await _unitOfWork.SaveChangesAsync();
@@ -136,7 +136,7 @@ namespace OAIM.Infrastructure.Services
                 identityUser.UserName = dto.UserName;
                 identityUser.Email = dto.Email;
                 identityUser.PhoneNumber = dto.PhoneNumber;
-                
+
                 var updateResult = await _userManager.UpdateAsync(identityUser);
 
                 if (!updateResult.Succeeded)

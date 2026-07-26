@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAIM.Application", "OAIM.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAIM.API", "OAIM.API\OAIM.API.csproj", "{2830536B-A4AB-49C6-9133-D247B1273422}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAIM.Test", "OAIM.Test\OAIM.Test.csproj", "{24D45F47-4D25-41AC-8200-8929DCA5F8C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2830536B-A4AB-49C6-9133-D247B1273422}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2830536B-A4AB-49C6-9133-D247B1273422}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2830536B-A4AB-49C6-9133-D247B1273422}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D45F47-4D25-41AC-8200-8929DCA5F8C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D45F47-4D25-41AC-8200-8929DCA5F8C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D45F47-4D25-41AC-8200-8929DCA5F8C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D45F47-4D25-41AC-8200-8929DCA5F8C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

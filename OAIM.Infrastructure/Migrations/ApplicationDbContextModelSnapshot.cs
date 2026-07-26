@@ -188,9 +188,6 @@ namespace OAIM.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CustomerType")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -228,6 +225,9 @@ namespace OAIM.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CustomerType")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("OrderDate")

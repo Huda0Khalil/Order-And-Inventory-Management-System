@@ -15,6 +15,7 @@ namespace OAIM.Application.DTO
         public DateTime? UpdateDate { get; set; }
         public int? CustomerId { get; set; }
         public List<CreateOrderItemDto> Items { get; set; }
+        public CustomerType CustomerType { get; set; } 
 
     }
     public class CreateOrderItemDto

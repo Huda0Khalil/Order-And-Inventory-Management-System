@@ -1,0 +1,155 @@
+
+<div class="modal-backdrop d-flex justify-content-center align-items-center bg-dark bg-opacity-50">
+
+    <div class="modal-content-custom bg-white rounded-4 shadow-lg p-4">
+
+        <h3 class="fw-bold text-center mb-4">
+            {{ mode === 'add' ? 'Add Customer' : 'Edit Customer' }}
+        </h3>
+
+        <form [formGroup]="form">
+
+            <input type="hidden" formControlName="Id">
+
+            <div class="mb-3">
+                <label for="fName" class="form-label fw-semibold">
+                   First Name
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    id="fName"
+                    formControlName="firstName">
+
+                @if(form.controls['firstName'].invalid && form.controls['firstName'].touched) {
+                    <small class="text-danger">
+                        First name is required and must be at least 3 characters long.
+                    </small>
+                }
+            </div>
+            <div class="mb-3">
+                <label for="lName" class="form-label fw-semibold">
+                   Last Name
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    id="lName"
+                    formControlName="lastName">
+
+                @if(form.controls['lastName'].invalid && form.controls['lastName'].touched) {
+                    <small class="text-danger">
+                        Last name is required and must be at least 3 characters long.
+                    </small>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label for="cusEmail" class="form-label fw-semibold">
+                    Email
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    id="cusEmail"
+                    formControlName="email">
+                @if (form.controls['email'].hasError('required') && form.controls['email'].touched) {
+                    <small class="text-danger">
+                        email is required.
+                    </small>
+                }
+                @else if (form.controls['email'].hasError('pattern') && form.controls['email'].touched) {
+                   <small class="text-danger">Please enter a valid email format (e.g., user&#64;domain.com).</small>
+                }
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label for="PhoneNumber" class="form-label fw-semibold">
+                        Phone Number
+                    </label>
+
+                    <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    id="PhoneNumber"
+                    formControlName="phoneNumber">
+
+                @if (form.controls['phoneNumber'].hasError('required') &&
+                    form.controls['phoneNumber'].touched) {
+                    <small class="text-danger">
+                        Phone Number is required.
+                    </small>
+                }
+                @else if (form.controls['phoneNumber'].hasError('pattern') &&
+                        form.controls['phoneNumber'].touched) {
+                    <small class="text-danger">
+                        Phone number must be 10 digits.
+                    </small>
+                }
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="Address" class="form-label fw-semibold">
+                       Address
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control form-control-lg"
+                        id="Address"
+                        formControlName="address">
+
+                    @if (form.controls['address'].invalid && form.controls['address'].touched) {
+                        <small class="text-danger">
+                            address is required.
+                        </small>
+                    }
+                </div>
+
+            </div>
+
+            <div class="modal-actions d-flex justify-content-end gap-2 pt-2 border-top">
+
+                <button
+                    class="btn btn-light px-4"
+                    (click)="closed.emit()">
+
+                    Cancel
+
+                </button>
+
+                <button
+                    class="btn btn-primary px-4"
+                    (click)="save()"
+                    [disabled]="form.invalid"
+                    >
+
+                    {{ mode === 'add' ? 'Create' : 'Update' }}
+
+                </button>
+
+            </div>
+        </form>
+
+        
+
+    </div>
+
+</div>
+<!-- [
+    {
+        "id": 1,
+        "firstName": "yyyy2",
+        "lastName": "yyyy2",
+        "email": "yyyy2@gmail.com",
+        "phoneNumber": "0785432169",
+        "address": "Amman",
+        "customerType": 1,
+        "tenantId": "Tenant3"
+    }
+] -->

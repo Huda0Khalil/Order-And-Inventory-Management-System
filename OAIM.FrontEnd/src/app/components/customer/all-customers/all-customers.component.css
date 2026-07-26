@@ -1,0 +1,16 @@
+table{
+    width: 100%;
+}
+span {
+    color: var(--text);
+}
+.pagination-controls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

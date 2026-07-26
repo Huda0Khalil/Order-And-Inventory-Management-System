@@ -1,0 +1,49 @@
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  padding: 1rem;
+  overflow-y: auto;
+}
+.modal-content-custom {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+}
+
+form{
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+@media (max-width: 768px) {
+  .modal-content-custom {
+    max-width: 100%;
+    padding: 1rem !important;
+  }
+
+  .form-control-lg,
+  .form-select-lg {
+    font-size: 0.95rem;
+  }
+}
+@media (max-width: 576px) {
+  .modal-content-custom {
+    border-radius: 1rem !important;
+  }
+
+  .row {
+    display: block;
+  }
+
+  .col-md-6 {
+    width: 100%;
+  }
+
+  .d-flex.justify-content-end {
+    flex-direction: column;
+  }
+
+  .d-flex.justify-content-end button {
+    width: 100%;
+  }
+}

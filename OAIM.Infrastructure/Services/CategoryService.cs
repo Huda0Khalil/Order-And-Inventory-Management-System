@@ -40,7 +40,7 @@ namespace OAIM.Application.Services
         {
             pageSize = pageSize > 100 ? 100 : pageSize;
             var query = _categoryRepository
-                       .GetAll()
+                       .GetAll(null)
                        .AsNoTracking();
             var totalCount = await query.CountAsync();
 
@@ -58,6 +58,20 @@ namespace OAIM.Application.Services
             };
 
         }
+        public async Task<List<Category>> GetListCategory()
+        {
+            return await _categoryRepository
+                .GetAll(null)
+                .AsNoTracking()
+                .OrderBy(c => c.Name)
+                .Select(c => new Category
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                })
+                .ToListAsync();
+        }
+
 
         public async Task<Category> GetCategoryById(int id)
         {
@@ -77,10 +91,5 @@ namespace OAIM.Application.Services
             await _unitOfWork.SaveChangesAsync();
             return category;
         }        
-
-        Task<PagedResult<Category>> ICategoryService.GetAllCategoriesAsync(int pageNumber, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -9,13 +9,14 @@ namespace OAIM.Application.DTO
     public class OrderResponseDto
     {
         public int Id { get; set; }
-        public string CustomerName { get; set; }
+        public int CustomerId { get; set; }
         public string CreatedByName { get; set; }
         public string? UpdatedByName { get; set; }
 
         public DateTime OrderDate { get; set; }
         public decimal TotalAmount { get; set; }
         public List<OrderItemResponseDto> Items { get; set; } = new();
+        public CustomerType CustomerType { get; set; }
 
     }
     public class OrderItemResponseDto
