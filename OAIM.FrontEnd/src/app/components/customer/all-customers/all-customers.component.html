@@ -1,5 +1,4 @@
-<app-top-bar title="Customers">
-
+<app-top-bar title="Customers" [actions]="action" (actionClicked)="openAddModel()" >
 </app-top-bar>
 <div class="card m-3">
     <div class="card-header d-flex justify-content-between align-items-center">
@@ -18,11 +17,7 @@
                 (input)="applyFilters()"
             />
         </div>
-        <div class="card-actions">
-           <button class="btn btn-sm btn-primary" (click)="openAddModel()">
-                <i class="ti ti-plus"></i> Add Customers
-            </button>
-        </div>
+       
     </div>
     @if(customers.length === 0) {
         <div class="card-body">

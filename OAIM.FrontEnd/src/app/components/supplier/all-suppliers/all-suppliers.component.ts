@@ -5,6 +5,7 @@ import { SupplierApiService } from '../../../services/supplier-api.service';
 import { AddEditSupplierComponent } from '../add-edit-supplier/add-edit-supplier.component';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { Actions } from '../../../models/breadcrumb';
 
 @Component({
   selector: 'app-all-suppliers',
@@ -24,6 +25,14 @@ export class AllSuppliersComponent implements OnInit {
   filteredSupplier:any;
   deleteTarget = signal<any | null>(null);
   protected readonly Math = Math;
+  action :Actions[] = [
+    {
+      label: 'New Supplier',
+      icon: 'bi bi-plus',
+      style: { 'background-color': 'blue', color: 'white' },
+      func: 'openAddModel'
+    }
+  ];
   constructor(private supplierApi: SupplierApiService){}
   ngOnInit(): void {
     this.loadSuppliers();

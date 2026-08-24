@@ -35,5 +35,10 @@
   gap: 8px;
   flex-shrink: 0;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: "Inter", "Cairo", sans-serif; }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow-y: auto;
+}
+body {font-family: "Inter", "Cairo", sans-serif; }

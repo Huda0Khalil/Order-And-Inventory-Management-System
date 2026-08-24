@@ -191,12 +191,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapFallbackToFile("index.html");
 using (var scope = app.Services.CreateScope())
 {
     await AdminSeeder.SeedAsync(scope.ServiceProvider, builder.Configuration);

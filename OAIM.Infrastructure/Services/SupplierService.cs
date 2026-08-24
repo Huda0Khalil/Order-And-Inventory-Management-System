@@ -46,7 +46,7 @@ namespace OAIM.Application.Services
            .AsNoTracking();
             var totalCount = await query.CountAsync();
             var items = await query
-                        .OrderBy(s => s.Name)
+                        .OrderBy(s => s.Id)
                         .Skip((pageNumber - 1) * pageSize)
                         .Take(pageSize)
                         .ToListAsync();

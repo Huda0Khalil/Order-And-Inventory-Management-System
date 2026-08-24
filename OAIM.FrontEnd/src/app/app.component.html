@@ -1,51 +1,96 @@
 <main class="layout">
-
   <aside
     class="sidebar"
     [class.collapsed]="!isSidebarOpen && !isMobile"
     [class.mobile-open]="isSidebarOpen && isMobile">
 
+    <!-- Header -->
     <div class="sidebar-header">
-
-      <h4 *ngIf="isSidebarOpen || isMobile" >OAIM </h4>
+      <h4 *ngIf="isSidebarOpen || isMobile">
+        OAIM
+      </h4>
 
       <button
         class="desktop-toggle d-none d-md-block"
         (click)="toggleSidebar()">
-
         <i class="bi bi-list"></i>
-
       </button>
 
       <button
         class="close-btn d-md-none"
         (click)="toggleSidebar()">
-
         <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- Navigation -->
+    <ul class="sidebar-menu">
+
+      <ng-container *ngFor="let item of menuItems">
+
+        <!-- Hide Register after login -->
+        <li *ngIf="(item.label !== 'Login' && item.label !== 'Register') || !(isLoggedIn$ | async)">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active">
+
+            <i [class]="item.icon"></i>
+
+            <span *ngIf="isSidebarOpen || isMobile">
+              {{ item.label }}
+            </span>
+
+          </a>
+        </li>
+
+      </ng-container>
+
+    </ul>
+
+    <!-- User Information -->
+    <div
+      class="sidebar-user"
+      *ngIf="isLoggedIn$ | async">
+
+      <div class="user-info">
+
+        <div class="avatar">
+          {{ userName.charAt(0).toUpperCase() }}
+        </div>
+
+        <div
+          class="user-details"
+          *ngIf="isSidebarOpen || isMobile">
+
+          <div class="name">
+            {{ userName }}
+          </div>
+
+          <div class="email">
+            {{ email }}
+          </div>
+
+          <div class="role">
+            {{ role }}
+          </div>
+
+        </div>
+
+      </div>
+
+      <button
+        class="logout-btn"
+        (click)="logout()">
+
+        <i class="bi bi-box-arrow-right"></i>
+
+        <span *ngIf="isSidebarOpen || isMobile">
+          Logout
+        </span>
 
       </button>
 
     </div>
-
-    <ul>
-
-      <li *ngFor="let item of menuItems">
-
-        <a
-          [routerLink]="item.route"
-          routerLinkActive="active">
-
-          <i [class]="item.icon"></i>
-
-          <span *ngIf="isSidebarOpen || isMobile">
-            {{ item.label }}
-          </span>
-
-        </a>
-
-      </li>
-
-    </ul>
 
   </aside>
 
@@ -58,15 +103,11 @@
   <section class="content">
 
     <header class="mobile-header d-md-none">
-
       <button
         class="menu-btn"
         (click)="toggleSidebar()">
-
         <i class="bi bi-list"></i>
-
       </button>
-
     </header>
 
     <router-outlet></router-outlet>

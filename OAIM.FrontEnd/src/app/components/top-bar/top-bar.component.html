@@ -14,7 +14,7 @@
         }
       </nav>
     } @else {
-      <h1 class="">{{ title }}</h1>
+      <h2 class="">{{ title }}</h2>
     }
   </div>
   <div>
@@ -33,6 +33,18 @@
 
   <!-- Buttons/actions injected from parent -->
   <div class="topbar-actions">
+    @if(actions.length > 0) {
+      @for (action of actions; track action.label) {
+        <button
+          type="button"
+          class="btn btn-sm me-2"
+          [ngStyle]="action.style"
+          (click)="actionClicked.emit(action.func)"
+        >
+          <i [class]="action.icon"></i> {{ action.label }}
+        </button>
+      }
+    }
     <ng-content />
   </div>
 

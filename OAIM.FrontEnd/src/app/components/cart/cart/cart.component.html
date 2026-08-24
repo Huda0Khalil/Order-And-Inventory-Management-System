@@ -1,32 +1,38 @@
-<div class="col-12 col-lg-4">
+<div class="col-lg-4 m-auto mt-3" style="width:60%;min-width: fit-content; ">
   <div class="card shadow-sm order-details">
     <div class="card-body">
       <h3>Order Details</h3>
+      <br />
       <table>
         <tr>
-          <td class="fw-bold fs-5">Created By: </td>
+          <td class="fs-6">Created By:</td>
           <td>{{ order?.createdBy.userName }}</td>
         </tr>
         <tr>
-          <td class="fw-bold fs-5" >Date:  </td>
-          <td>{{ order?.orderDate |date : 'medium'}}</td>
-        </tr>
-         <tr>
-          <td class="fw-bold fs-5" >Customer : </td>
-          <td>{{ order?.customer?.firstName? order.customer?.firstName:'Null'}}</td>
+          <td class="fs-6">Date:</td>
+          <td>{{ order?.orderDate | date: "medium" }}</td>
         </tr>
         <tr>
-          <td class="fw-bold fs-5" >Customer Type:   </td>
+          <td class="fs-6">Customer :</td>
+          <td>
+            {{
+              order?.customer?.firstName ? order.customer?.firstName : "Null"
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td class="fs-6">Customer Type:</td>
           <td>{{ CustomerType[order?.customerType] }}</td>
         </tr>
       </table>
+      <hr />
       <div class="d-flex justify-content-between mt-4 mb-3">
-          <h5>Cart</h5>
+        <h5>Cart</h5>
 
-          <span class="bg-info rounded-pill p-2">
-            {{ order?.items.length }} items
-          </span>
-        </div>
+        <span class="bg-info rounded-pill p-2">
+          {{ order?.items.length }} items
+        </span>
+      </div>
       <table>
         <thead>
           <th>Product</th>
@@ -35,45 +41,38 @@
           <th>Total</th>
         </thead>
         <tbody>
-          @for(item of order?.items; track $index){
-<tr>
-            <td>{{ productCache[item?.productId]?.name}}</td>
-            <td> {{ item?.unitPrice}}</td>
-            <td> {{item?.quantity}}</td>
-            <td> {{ (item?.unitPrice * item.quantity) }}</td>
-          </tr>
+          @for (item of order?.items; track $index) {
+            <tr>
+              <td>{{ productCache[item?.productId]?.name }}</td>
+              <td>{{ item?.unitPrice }}</td>
+              <td>{{ item?.quantity }}</td>
+              <td>{{ item?.unitPrice * item.quantity }}</td>
+            </tr>
           }
-            
-        
-          
-          
-          
         </tbody>
       </table>
-        <!-- Summary -->
-        <div class="mt-4 d-flex justify-content-between">
-          <h5>Subtotal:</h5>
-          <h5>
-            {{ subtotal | currency:'USD' }}
-          </h5>
-        </div>
+      <hr>
+      <!-- Summary -->
+      <div class="mt-4 d-flex justify-content-between">
+        <h5>Subtotal:</h5>
+        <h5>
+          {{ subtotal | currency: "USD" }}
+        </h5>
+      </div>
 
+      <div class="mt-3 d-flex justify-content-between">
+        <h5>Items:</h5>
+        <h5>
+          {{ order?.items.length }}
+        </h5>
+      </div>
 
-        <div class="mt-3 d-flex justify-content-between">
-          <h5>Items:</h5>
-          <h5>
-            {{ order?.items.length }}
-          </h5>
-        </div>
-
-
-        <div class="mt-3 d-flex justify-content-between">
-          <h5>Total:</h5>
-          <h5>
-            {{ total | currency:'USD' }}
-          </h5>
-        </div>
-     
+      <div class="mt-3 d-flex justify-content-between">
+        <h5>Total:</h5>
+        <h5>
+          {{ total | currency: "USD" }}
+        </h5>
+      </div>
     </div>
   </div>
 </div>

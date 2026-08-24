@@ -1,4 +1,4 @@
-<app-top-bar title="Suppliers">
+<app-top-bar title="Suppliers" [actions]="action" (actionClicked)="openAddModel()">
 
 </app-top-bar>
 <div class="card m-3">
@@ -18,12 +18,7 @@
                 (input)="applyFilters()"
             />
         </div>
-        <div class="card-actions">
-           <button class="btn btn-sm btn-primary" (click)="openAddModel()">
-                <i class="ti ti-plus"></i> Add Supplier
-            </button>
-        </div>
-    </div>
+      </div>
     @if(suppliers.length === 0) {
         <div class="card-body">
             <p>No suppliers found.</p>

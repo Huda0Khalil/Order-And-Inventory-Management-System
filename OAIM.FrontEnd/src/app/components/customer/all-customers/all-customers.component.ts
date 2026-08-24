@@ -5,6 +5,7 @@ import { TopBarComponent } from '../../top-bar/top-bar.component';
 import { FormsModule } from '@angular/forms';
 import { AddEditCustomerComponent } from "../add-edit-customer/add-edit-customer.component";
 import { CommonModule } from '@angular/common';
+import { Actions } from '../../../models/breadcrumb';
 
 @Component({
   selector: 'app-all-customers',
@@ -24,6 +25,14 @@ export class AllCustomersComponent {
   filteredCustomers:any;
   deleteTarget = signal<any | null>(null);
   protected readonly Math = Math;
+  action :Actions[] = [
+    {
+      label: 'New Customer',
+      icon: 'bi bi-plus',
+      style: { 'background-color': 'blue', color: 'white' },
+      func: 'openAddModel'
+    }
+  ];
   constructor(private customerApi: CustomerApiService){}
   ngOnInit(): void {
     this.loadCustomers();
@@ -108,16 +117,19 @@ openEdit(cus: any) {
 }
 
 applyFilters() {
+  console.log(this.customers);
     this.filteredCustomers = this.customers.filter(cus => {
       const matchesSearch =
         this.searchText === '' ||
-        cus.id.toString().includes(this.searchText) ||
-        cus.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        cus.contactEmail.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        cus.id.toString().includes(this.searchText)||
+        cus.firstName.toLowerCase().includes(this.searchText.toLowerCase())||
+        cus.lastName.toLowerCase().includes(this.searchText.toLowerCase()) ||
         cus.address.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        cus.email.toLowerCase().includes(this.searchText.toLowerCase()) ||
         cus.phoneNumber.toLowerCase().includes(this.searchText.toLowerCase());
       return matchesSearch;
   });
 }
+
 
 }

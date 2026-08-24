@@ -1,4 +1,4 @@
-<app-top-bar title="Categories">
+<app-top-bar title="Categories" [actions]="action" (actionClicked)="openAddModel()" >
 
 </app-top-bar>
 <div class="container fade-in">
@@ -23,12 +23,7 @@
             />
         </div>
         
-        <div class="card-actions">
-           <button class="btn btn-sm btn-primary" (click)="openAddModel()">
-                <i class="ti ti-plus"></i> Add Category
-            </button>
-        </div>
-    </div>
+       </div>
     @if(totalCount === 0) {
         <div class="card-body">
             <p>No Categories found.</p>

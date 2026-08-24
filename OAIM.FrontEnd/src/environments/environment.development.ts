@@ -1,5 +1,6 @@
 export const environment = {
-    production: false,
-    baseApiUrl: 'https://localhost:7211/api'
-    // baseApiUrl: 'http://localhost:3000'
+    production: true,
+    
+     apiUrl: "https://localhost:7211/api",
+    tenant: "Tenant3"
 };

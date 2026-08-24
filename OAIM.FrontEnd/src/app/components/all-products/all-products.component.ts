@@ -10,6 +10,7 @@ import { SupplierApiService } from '../../services/supplier-api.service';
 import { AddEditProductComponent } from "../add-edit-product/add-edit-product.component";
 import Swal from 'sweetalert2'
 import { ActivatedRoute } from '@angular/router';
+import { Actions } from '../../models/breadcrumb';
 
 @Component({
   selector: 'app-all-products',
@@ -38,6 +39,14 @@ catId !: number;
 //delete confirmation
   deleteTarget = signal<any | null>(null);
 protected readonly Math = Math;
+action: Actions[] = [
+  {
+    label: 'New Product',
+    icon: 'bi bi-plus',
+    style: { 'background-color': 'blue', color: 'white' },
+    func: 'openAddModel',
+  },
+];
   constructor(private productApi: ProductApiService, private supplierApi: SupplierApiService, private categoryApi: CategoryApiService,
     private _activetedRoute: ActivatedRoute
   ) {}
@@ -87,7 +96,8 @@ protected readonly Math = Math;
         product.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
         product.category?.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
         product.supplier?.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        product.barcode.toLowerCase().includes(this.searchText.toLowerCase());
+        product.barcode.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        product.price.toString().includes(this.searchText);
       return matchesSearch;
   });
 }

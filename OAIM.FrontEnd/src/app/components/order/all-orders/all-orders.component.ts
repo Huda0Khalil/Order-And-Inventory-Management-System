@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { OrderApiService } from '../../../services/order-api.service';
 import { customerType } from '../../../models/customerType';
 import { Route, Router, RouterLink } from '@angular/router';
+import { Actions } from '../../../models/breadcrumb';
 
 @Component({
   selector: 'app-all-orders',
-  imports: [TopBarComponent, CommonModule, FormsModule, RouterLink],
+  imports: [TopBarComponent, CommonModule, FormsModule],
   templateUrl: './all-orders.component.html',
   styleUrl: './all-orders.component.css'
 })
@@ -19,8 +20,18 @@ export class AllOrdersComponent implements OnInit {
   pageSize=10;
   totalCount=0;
   filteredOrders:any;
+  showModal:boolean=false;
+  modalMode: 'add'|'edit' = 'add';
   protected readonly Math = Math;
  protected readonly customerType = customerType;
+ action :Actions[] = [
+    {
+      label: 'New Order',
+      icon: 'bi bi-plus',
+      style: { 'background-color': 'blue', color: 'white' },
+      func: 'openAddPage'
+    }
+  ];
   constructor(private orderApi: OrderApiService, private _router:Router){}
   ngOnInit(): void {
     this.loadOrders();  
@@ -54,8 +65,8 @@ previousPage() {
       this.loadOrders();
     }
 }
-openAddModel() {
-throw new Error('Method not implemented.');
+openAddPage() {
+  this._router.navigate(['/Orders/AddOrder']);
 }
 applyFilters() {
   this.filteredOrders =  this.orders.filter(order => {
@@ -64,8 +75,8 @@ applyFilters() {
         this.searchText === '' ||
         order.id.toString().includes(this.searchText) ||
         order.createdBy.userName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-       customerType[order.customerType].toLowerCase().includes(this.searchText.toLowerCase())||
-       order.customer?.firstName?.toLowerCase().includes(this.searchText.toLowerCase());
+        customerType[order.customerType].toLowerCase().includes(this.searchText.toLowerCase()) ||
+        order.customer?.firstName?.toLowerCase().includes(this.searchText.toLowerCase());
         console.log(matchesSearch)
       return matchesSearch;
 })}

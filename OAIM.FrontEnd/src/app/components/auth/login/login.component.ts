@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
@@ -8,18 +13,16 @@ import { AuthService } from '../../../services/auth.service';
   selector: 'app-login',
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
-
   form: FormGroup;
   isPasswordHidden = true;
 
   passwordPattern =
     '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,20}$';
 
-  patternEmail =
-    '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$';
+  patternEmail = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$';
 
   messageError!: string;
 
@@ -54,10 +57,8 @@ export class LoginComponent {
       },
       error: (err) => {
         this.messageError =
-          err?.error?.message ||
-          err?.error ||
-          'Invalid email or password.';
-      }
+          err?.error?.message || err?.error || 'Invalid email or password.';
+      },
     });
   }
 }

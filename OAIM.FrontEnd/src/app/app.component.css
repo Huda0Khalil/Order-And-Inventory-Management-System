@@ -130,6 +130,7 @@ h4{
 
     flex:1;
     overflow:auto;
+    height:105vh;
 
 }
 
@@ -154,7 +155,62 @@ h4{
     z-index:999;
 
 }
+.sidebar-user {
+    border-top: 1px solid rgba(255,255,255,.15);
+    padding: 15px;
+}
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
 
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.user-details .name {
+    color: white;
+    font-weight: 600;
+}
+
+.user-details .email {
+    color: #b8c2d3;
+    font-size: 13px;
+}
+
+.user-details .role {
+    color: #8ea4c4;
+    font-size: 12px;
+}
+
+.logout-btn {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.logout-btn:hover {
+    background: rgba(255,255,255,.1);
+}
 /* Mobile */
 
 @media(max-width:768px){

@@ -71,7 +71,7 @@ namespace OAIM.Application.Services
             return await _customerRepository
                 .GetAll(null)
                 .AsNoTracking()
-                .OrderBy(c => c.FirstName)
+                .OrderBy(c => c.Id)
                 .Select(c => new Customer
                 {
                     Id = c.Id,

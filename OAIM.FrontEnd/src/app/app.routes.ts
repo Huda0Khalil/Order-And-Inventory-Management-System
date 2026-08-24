@@ -13,8 +13,9 @@ import { CartComponent } from './components/cart/cart/cart.component';
 
 export const routes: Routes = [
     {
-        path: 'Dashboard',
-        component: DashboardComponent
+        path: '',
+        component: DashboardComponent,
+        
     },
     {
         path: 'Products',
@@ -70,5 +71,11 @@ export const routes: Routes = [
     {
         path:'Login',
         component:LoginComponent
+    },
+    
+    {
+        path: 'Dashboard',
+        component: DashboardComponent,
+        
     }
 ];

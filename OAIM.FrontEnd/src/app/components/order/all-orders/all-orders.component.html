@@ -1,4 +1,4 @@
-<app-top-bar title="Orders">
+<app-top-bar title="Orders" [actions]="action" (actionClicked)="openAddPage()">
 
 </app-top-bar>
 <div class="card m-3">
@@ -17,11 +17,6 @@
                 [(ngModel)]="searchText"
                 (input)="applyFilters()"
             />
-        </div>
-        <div class="card-actions">
-           <button class="btn btn-sm btn-primary" routerLink="/Orders/AddOrder">
-                <i class="ti ti-plus"></i> Add Orders
-            </button>
         </div>
     </div>
     @if(orders.length === 0) {

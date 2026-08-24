@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Breadcrumb } from '../../models/breadcrumb';
+import { Actions, Breadcrumb } from '../../models/breadcrumb';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -15,4 +15,7 @@ export class TopBarComponent {
 @Input() haveSelect: boolean = false;
 @Input() selectionChange: any[] = [];
 @Output() selectedValue = new EventEmitter<any>();
+@Input() actions: Actions[] = [];
+@Output() actionClicked = new EventEmitter<string>();
+
 }

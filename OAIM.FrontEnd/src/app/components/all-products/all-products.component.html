@@ -1,4 +1,4 @@
-<app-top-bar title="Products">
+<app-top-bar title="Products" [actions]="action" (actionClicked)="openAddModel()">
 
 </app-top-bar>
 <div class="card m-3">
@@ -28,13 +28,7 @@
                     <option value="{{ category.id }}">{{ category.name }}</option>
                 }
             </select>
-        </div>
-
-        <div class="card-actions">
-           <button class="btn btn-sm btn-primary" (click)="openAddModel()">
-                <i class="ti ti-plus"></i> Add Product
-            </button>
-        </div>
+        </div>        
     </div>
     @if(filteredProducts.length === 0) {
         <div class="card-body">

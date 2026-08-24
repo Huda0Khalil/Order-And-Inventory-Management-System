@@ -13,10 +13,11 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent implements OnInit {
   isLoggedIn$!: Observable<boolean>;
-
   isSidebarOpen = true;
   isMobile = false;
-
+  userName = '';
+  email = '';
+  role = '';
   menuItems = [
     { label: 'Dashboard', icon: 'bi bi-speedometer2', route: '/Dashboard' },
     { label: 'Products', icon: 'bi bi-box-seam', route: '/Products' },
@@ -24,7 +25,18 @@ export class AppComponent implements OnInit {
     { label: 'Suppliers', icon: 'bi bi-truck', route: '/Suppliers' },
     { label: 'Customers', icon: 'bi bi-people', route: '/Customers' },
     { label: 'Orders', icon: 'bi bi-cart-check', route: '/Orders' },
-    { label: 'Register', icon: 'bi bi-person-plus', route: '/Register' },
+     {
+      label: 'Login',
+      icon: 'bi bi-box-arrow-in-right',
+      route: '/Login',
+      guestOnly: true,
+    },
+    {
+      label: 'Register',
+      icon: 'bi bi-person-plus',
+      route: '/Register',
+      guestOnly: true,
+    },
   ];
 
   constructor(
@@ -33,11 +45,11 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.initialize().subscribe();
-
+    this.userName = localStorage.getItem('userName') ?? '';
+    this.email = localStorage.getItem('email') ?? '';
+    this.role = localStorage.getItem('role') ?? '';
     // initialize observable after authService is available
     this.isLoggedIn$ = this.authService.isLoggedIn$;
-
     this.checkScreen();
   }
 
