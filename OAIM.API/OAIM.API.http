@@ -288,3 +288,8 @@ tenant: Tenant3
 
 
 ###
+
+GET {{OAIM.API_HostAddress}}/api/auth/me
+tenant: Tenant3
+
+###

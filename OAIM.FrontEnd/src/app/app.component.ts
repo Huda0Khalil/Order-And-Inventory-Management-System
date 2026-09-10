@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
     { label: 'Suppliers', icon: 'bi bi-truck', route: '/Suppliers' },
     { label: 'Customers', icon: 'bi bi-people', route: '/Customers' },
     { label: 'Orders', icon: 'bi bi-cart-check', route: '/Orders' },
-     {
+    {
       label: 'Login',
       icon: 'bi bi-box-arrow-in-right',
       route: '/Login',
@@ -45,11 +45,18 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userName = localStorage.getItem('userName') ?? '';
-    this.email = localStorage.getItem('email') ?? '';
-    this.role = localStorage.getItem('role') ?? '';
-    // initialize observable after authService is available
     this.isLoggedIn$ = this.authService.isLoggedIn$;
+    this.authService.currentUser$.subscribe((user) => {
+      if (user) {
+        this.userName = user.userName ?? localStorage.getItem('userName') ?? '';
+        this.email = user.email ?? localStorage.getItem('email') ?? '';
+        this.role = user.role ?? localStorage.getItem('role') ?? '';
+      } else {
+        this.userName = '';
+        this.email = '';
+        this.role = '';
+      }
+    });
     this.checkScreen();
   }
 

@@ -6,17 +6,18 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { credentialsInterceptor } from './interceptors/credentials-interceptor.interceptor';
 import { AuthService } from './services/auth.service';
+import { firstValueFrom } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
-  providers: 
-  [
+   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-     provideRouter(routes), 
-     provideClientHydration(withEventReplay()),
+    provideRouter(routes),
+    provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([credentialsInterceptor])),
-  provideAppInitializer(() => {
+    provideAppInitializer(() => {
       const authService = inject(AuthService);
-      return authService.initialize();
-    })],
+      return firstValueFrom(authService.initialize());
+    }),
+  ],
     
 };
